@@ -1,0 +1,933 @@
+Spring Boot:-
+```````````  
+  Spring Boot is built on the top of the spring and contains all the features of spring. And is becoming a favorite of 
+developers these days because of its rapid production-ready environment which enables the developers to directly 
+focus on the logic instead of struggling with the configuration and setup. Spring Boot is a microservice-based 
+framework and making a production-ready application in it takes very little time. Following are some of the 
+features of Spring Boot:
+
+It allows avoiding heavy configuration of XML which is present in spring
+It provides easy maintenance and creation of REST endpoints
+It includes embedded Tomcat-server
+Deployment is very easy, war and jar files can be easily deployed in the tomcat server
+
+Spring Annotations:-
+```````````````````
+  Spring Annotations are a form of metadata that provides data about a program. Annotations are used to provide 
+supplemental information about a program. It does not have a direct effect on the operation of the code they annotate. 
+It does not change the action of the compiled program. So in this article, we are going to discuss annotations 
+that are available in Spring Boot with examples.
+
+what is metadata in java:-
+````````````````````````
+ Metadata in Java is used to know the data about data. It means for example table field names, field data type, 
+field data type length, database table names, number of databases that existed in the specific database, etc.
+
+
+SpringBootAnnotations:-
+````````````````````````
+  Spring annotations present in the org.springframework.boot.autoconfigure and org.springframework.boot.autoconfigure.condition 
+packages are commonly known as Spring Boot annotations. Some of the annotations that are available in this category are:
+
+ @SpringBootApplication Annotation This annotation is used to mark the main class of a Spring Boot application. 
+It encapsulates @SpringBootConfiguration, @EnableAutoConfiguration, and @ComponentScan annotations with their 
+default attributes.
+
+Example:-
+````````
+@SpringBootApplication
+
+// Class
+public class DemoApplication {
+
+	// Main driver method
+	public static void main(String[] args)
+	{
+
+		SpringApplication.run(DemoApplication.class, args);
+	}
+}
+
+
+@SpringBootApplication
+@SpringBootConfiguration
+@EnableAutoConfiguration
+@ComponentScan
+Auto-Configuration Conditions
+@ConditionalOnClass, and @ConditionalOnMissingClass
+@ConditionalOnBean, and @ConditionalOnMissingBean
+@ConditionalOnProperty
+@ConditionalOnResource
+@ConditionalOnWebApplication and @ConditionalOnNotWebApplication
+@ConditionalExpression
+@Conditional
+
+  There are many annotations are available in Spring Framework. Some of the Spring Framework Annotations are 
+listed below as follows where here we are going to discuss one of the most important annotations that is 
+@ServiceAnnotation
+
+@Required
+@Autowired
+@Configuration
+@ComponentScan
+@Bean
+@Component
+@Controller
+@Service
+@Repository, etc.
+
+@Service Annotation:-
+````````````````````
+  It is used to mark the class as a service provider. So overall @Service annotation is used with classes that provide 
+some business functionalities. Spring context will autodetect these classes when annotation-based configuration and 
+classpath scanning is used.
+
+Example:-
+````````
+// Java Program to Illustrate MyServiceClass
+
+// Importing package module to code module
+package com.example.demo.service;
+// Importing required classes
+import org.springframework.stereotype.Service;
+
+// Annotation
+@Service
+
+// Class
+public class MyServiceClass {
+
+	// Method
+	// To compute factorial
+	public int factorial(int n)
+	{
+		// Base case
+		if (n == 0)
+			return 1;
+
+		return n * factorial(n - 1);
+	}
+}
+
+@Component Annotation:-
+``````````````````````
+  @Component is a class-level annotation. It is used to denote a class as a Component. We can use @Component across 
+the application to mark the beans as Spring’s managed components. A component is responsible for some operations. 
+Spring framework provides three other specific annotations to be used when marking a class as a Component.
+
+
+1.@Service
+2.@Repository
+3.@Controller
+
+1 @Service: We specify a class with @Service to indicate that they’re holding the business logic. 
+Besides being used in the service layer, there isn’t any other special use for this annotation. 
+The utility classes can be marked as Service classes.
+
+2 @Repository: We specify a class with @Repository to indicate that they’re dealing with CRUD 
+operations, usually, it’s used with DAO (Data Access Object) or Repository implementations 
+that deal with database tables.
+
+3 @Controller: We specify a class with @Controller to indicate that they’re front controllers 
+and responsible to handle user requests and return the appropriate response. It is mostly used 
+with REST Web Services.
+
+Note:-  All these four annotations are available in package ‘org.springframework.stereotype’ 
+and part of ‘spring-context jar’.
+
+@Component Example:-
+```````````````````
+// Java Program to Illustrate Component class
+package com.example.demo;
+
+import org.springframework.stereotype.Component;
+
+// Annotation
+@Component
+
+// Class
+public class ComponentDemo {
+
+	// Method
+	public void demoFunction()
+	{
+
+		// Print statement when method is called
+		System.out.println("Hello GeeksForGeeks");
+	}
+}
+
+@Component Main Class Example:-
+`````````````````````````````
+// Importing package here
+package com.example.demo;
+// Importing required classes
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+// Annotation
+@SpringBootApplication
+
+// Class
+public class DemoApplication {
+
+	// Main driver method
+	public static void main(String[] args)
+	{
+
+		// Annotation based spring context
+		AnnotationConfigApplicationContext context
+			= new AnnotationConfigApplicationContext();
+		context.scan("com.example.demo");
+		context.refresh();
+
+		// Getting the Bean from the component class
+		ComponentDemo componentDemo
+			= context.getBean(ComponentDemo.class);
+		componentDemo.demoFunction();
+
+		// Closing the context
+		// using close() method
+		context.close();
+	}
+}
+
+
+@ComponentScan Annotation:-
+`````````````````````````
+   One of the most important annotations in spring is @ComponentScan which is used along with the @Configuration 
+annotation to specify the packages that we want to be scanned. @ComponentScan without arguments tells Spring to 
+scan the current package and all of its sub-packages.  So let’s understand @ComponentScan Annotation with an 
+example project
+@ComponentScan(basePackages = "ComponentAnnotation") or @ComponentScan
+A. File: College.java:-
+````````````````````
+package ComponentAnnotation;
+
+// Class
+public class College {
+
+	// Method
+	public void test()
+	{
+
+		// Print statement whenever this method of
+		// College class is called
+		System.out.println("Test College Method");
+	}
+}
+
+
+B. File: beans.xml:-
+``````````````````
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		https://www.springframework.org/schema/context/spring-context.xsd">
+
+	<bean id="collegeBean" class="ComponentAnnotation.College"></bean>
+</beans>
+
+  But we don’t want to create the bean by this method. We want to use some annotation for doing this task. 
+So we can use @Component annotation for doing the same task. So we can modify our College.java file something like this.
+
+C. File: Modified College.java:-
+```````````````````````````````
+
+package ComponentAnnotation;
+
+// Importing required classes
+import org.springframework.stereotype.Component;
+
+// Annotation
+@Component("collegeBean")
+
+// Class
+public class College {
+
+	// Method
+	public void test()
+	{
+		// Print statement whenever this method is called
+		System.out.println("Test College Method");
+	}
+}
+
+But in this case, we have to write the following line inside the beans.xml file.
+
+<context:component-scan base-package="ComponentAnnotation"/>
+
+Note:- But we don’t want to use the complete beans.xml file in our project. So what we can do to replace the beans.xml file? 
+In general, beans.xml is a configuration file. So we can create a configuration class in Java and just make this class our 
+Configuration class by just using the @Configuration Annotation. Yes, we can do that. So now let’s create another class 
+named CollegeConfig. One more thing is, we have to also use the @ComponentScan annotation because we need to scan through 
+all our components. In this particular package “ComponentAnnotation” whatever the classes present, the @Component annotation 
+is going to create the bean for that, and to do that inside the Configuration classes we need to define our base package 
+something like as shown below as follows:
+
+D. File: CollegeConfig.java:-
+````````````````````````````
+// Java Program to Illustrate Configuration of
+// College Class
+
+package ComponentAnnotation;
+
+// Importing required classes
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+// Annotation
+@Configuration
+@ComponentScan(basePackages = "ComponentAnnotation")
+
+// Class
+public class CollegeConfig {
+}
+
+Now to check our application let’s create a main method inside our Main class. Below is the code for the Main.java file. 
+Comments are added inside the code to understand the code in more detail.
+
+E. Application or Main File: Main.java:-
+```````````````````````````````````````
+// Java Program to Illustrate Application Class
+
+package ComponentAnnotation;
+
+// Importing required classes
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+// Main class
+public class Main {
+
+	// Main driver method
+	public static void main(String[] args)
+	{
+
+		// Using AnnotationConfigApplicationContext
+		// instead of ClassPathXmlApplicationContext
+		// Because we are not using XML Configuration
+		ApplicationContext context = new AnnotationConfigApplicationContext(CollegeConfig.class);
+
+		// Get the bean and storing it in
+		// a object of College class type
+		College college = context.getBean("collegeBean", College.class);
+
+		// Invoking the method
+		// inside main() method
+		college.test();
+	}
+}
+
+@Configuration Annotation:-
+``````````````````````````
+   One of the most important annotations in spring is @Configuration annotation which indicates that the class 
+has @Bean definition methods. So Spring container can process the class and generate Spring Beans to be used in
+the application. This annotation is part of the spring core framework. So let’s understand @Configuration 
+Annotation with an example project.
+
+Prerequisite:-
+`````````````
+Spring @ComponentScan Annotation with Example
+
+A. File: College.java:-
+`````````````````````
+
+// Java Program to Illustrate College Class
+
+package ComponentAnnotation;
+
+// Class
+public class College {
+
+	// Method
+	public void test()
+	{
+		// Print statement
+		System.out.println("Test College Method");
+	}
+}
+
+  We can use @Component annotation for creating the bean for this class. So we can modify our College.java file 
+something like this.
+
+B. File: ModifiedCollege.java:-
+``````````````````````````````
+package ComponentAnnotation;
+
+// Importing required classes
+import org.springframework.stereotype.Component;
+
+// Annotation
+@Component("collegeBean")
+
+// Class
+public class College {
+
+	// Method
+	public void test()
+	{
+		// Print statement whenever this method is called
+		System.out.println("Test College Method");
+	}
+}
+
+
+C. File: CollegeConfig.java:-
+````````````````````````````
+// Java Program to Illustrate Configuration of
+// College Class
+
+package ComponentAnnotation;
+
+// Importing required classes
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+// Annotation
+@Configuration
+@ComponentScan(basePackages = "ComponentAnnotation")
+
+// Class
+public class CollegeConfig {
+}
+
+  So now, we don’t want to use the @Component and @ComponentScan annotations to create the beans. Let’s discuss 
+another way of doing the same task. So we are going to create the spring beans using the @Bean annotation. 
+But how? Where to write these methods? As we have discussed at the beginning that “@Configuration annotation 
+indicates that the class has @Bean definition methods”, so let’s explain this statement and create our beans 
+inside the CollegeConfig.java file using the @Bean annotation. So we can write something like this inside our 
+CollegeConfig.java file. Please refer to the comments for a better understanding. 
+
+    @Bean
+   // Here the method name is the
+  // bean id/bean name
+   public College collegeBean(){
+    // Return the College object
+    return new College();
+   }
+   
+D. File: CollegeConfig.java:-
+````````````````````````````
+package BeanAnnotation;
+
+// Importing required classes
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class CollegeConfig {
+
+	// Using Bean annotation to create
+	// College class Bean
+	@Bean
+	// Here the method name is the
+	// bean id/bean name
+	public College collegeBean() {
+	
+		// Return the College object
+		return new College();
+	}
+
+}
+
+  Similarly, if you have another class named Student and you want to create the bean for this Student 
+class then you can create the bean using the @Bean annotation inside the configuration class just like 
+that
+
+   @Bean
+// Here the method name is the
+// bean id/bean name
+public Student studentBean(){
+    // Return the Student object
+    return new Student();
+}
+
+  Now to check our application let’s create a main method inside our Main class. Below is the code for the Main.java file. 
+Comments are added inside the code to understand the code in more detail.
+
+D. File: Main.java:-
+``````````````````
+// Java Program to Illustrate Application Class
+
+package ComponentAnnotation;
+
+// Importing required classes
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+// Application class
+public class Main {
+
+	// Main driver method
+	public static void main(String[] args)
+	{
+
+		// Use AnnotationConfigApplicationContext
+		// instead of ClassPathXmlApplicationContext
+		// because we are not using XML Configuration
+		ApplicationContext context
+			= new AnnotationConfigApplicationContext(
+				CollegeConfig.class);
+
+		// Getting the bean
+		College college
+			= context.getBean("collegeBean", College.class);
+
+		// Invoking the method
+		// inside main() method
+		college.test();
+	}
+}
+ 
+
+Bean Definition:-
+ ```````````````
+ The objects that form the backbone of your application and that are managed by the Spring IoC container are called beans. 
+A bean is an object that is instantiated, assembled, and otherwise managed by a Spring IoC container. These beans are 
+created with the configuration metadata that you supply to the container. For example, in the form of XML <bean/> 
+definitions which you have already seen in the previous chapters.
+
+Bean definition contains the information called configuration metadata, which is needed for the container to know the following −
+
+1.How to create a bean
+2.Bean's lifecycle details
+3.Bean's dependencies
+
+@Bean Annotation:-
+````````````````
+   One of the most important annotations in spring is the @Bean annotation which is applied on a method to specify
+that it returns a bean to be managed by Spring context. Spring Bean annotation is usually declared in Configuration 
+classes methods. This annotation is also a part of the spring core framework. So let’s understand @Bean Annotation
+with an example project.
+
+Prerequisite:-
+`````````````
+Spring @ComponentScan Annotation with Example
+Spring @Configuration Annotation with Example 
+
+
+Note: Whenever you are using the @Bean annotation to create the bean you don’t need to use the 
+@ComponentScan annotation inside your configuration class. 
+
+Tip: Now let’s remove the @Bean annotation before the collegeBean() method and run our program again and you can
+see we are going to get the “NoSuchBeanDefinitionException” exception 
+    
+	Tip: Now let’s remove the @Bean annotation before the collegeBean() method and run our program again and you can see we are 
+	      going to get the “NoSuchBeanDefinitionException” exception 
+		  
+@Bean(name = {"myCollegeBean", "yourCollegeBean"})
+public College collegeBean()
+{
+    return new College();
+}
+
+Dependency Injection with @Bean Annotation :-
+````````````````````````````````````````````
+  Now let’s discuss another scenario. Suppose we have a dependency class named Principal inside our College class then what to do? 
+So the scenario is like this. We have a class named Principal.java and we have defined a simple method inside this.
+
+// Java Program to Illustrate Principal Class
+
+package BeanAnnotation;
+
+// Class
+public class Principal {
+
+	// Method
+	public void principalInfo()
+	{
+		// Print statement
+		System.out.println("Hi, I am your principal");
+	}
+}
+
+
+// Java Program to Illustrate College Class
+
+package BeanAnnotation;
+
+// Class
+public class College {
+
+	// Class data member
+	private Principal principal;
+
+	// Method
+	public void test()
+	{
+		principal.principalInfo();
+
+		// Print statement
+		System.out.println("Test College Method");
+	}
+}
+
+  So now we want to do the dependency injection. So we can do it in 2 ways as listed later implemented as shown below:
+  1. Constructor Dependency Injection (CDI)
+  2. Setter Dependency Injection (SDI)
+  
+  
+   1. Constructor Dependency Injection (CDI):-
+   ```````````````````````````````````````````
+   
+    A. College Class :-
+	`````````````````
+  // Java Program to Illustrate College Class
+
+package BeanAnnotation;
+
+// Class
+public class College {
+
+	private Principal principal;
+
+     // Constructors
+	public College(Principal principal)
+	{
+		this.principal = principal;
+	}
+	
+	// Setter
+    public void setPrincipal(Principal principal)
+    {
+ 
+        // this keywords refers to current instance itself
+        this.principal = principal;
+    }
+ 
+
+	public void test()
+	{
+		principal.principalInfo();
+		System.out.println("Test College Method");
+	}
+}
+
+   B. Configuration Class:-
+  ````````````````````````   
+// Java Program to Illustrate Configuration Class
+
+package BeanAnnotation;
+
+// Importing required classes
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+// Annotation
+@Configuration
+public class CollegeConfig {
+
+	// Creating the Bean for Principal Class
+	@Bean public Principal principalBean()
+	{
+		return new Principal();
+	}
+
+	@Bean public College collegeBean()
+	{
+		// Constructor Injection
+		return new College(principalBean());
+		
+		  // Setter Injection
+        College college = new College();
+        college.setPrincipal(principalBean());
+ 
+        return college;
+	}
+}
+   C. Application Class:- 
+   ````````````````````
+// Java Program to Illustrate Application Class
+
+package BeanAnnotation;
+
+// Importing required classes
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+// Main class
+public class Main {
+
+	// Main driver method
+	public static void main(String[] args)
+	{
+
+		// Using AnnotationConfigApplicationContext
+		// instead of ClassPathXmlApplicationContext
+		// because we are not using XML Configuration
+		ApplicationContext context
+			= new AnnotationConfigApplicationContext(
+				CollegeConfig.class);
+
+		// Getting the bean
+		College college
+			= context.getBean("collegeBean", College.class);
+
+		// Invoking the method
+		// inside main() method
+		college.test();
+	}
+}
+
+@Controller Annotation:-
+``````````````````````
+    website link - https://www.geeksforgeeks.org/spring-controller-annotation-with-example/
+	
+  Spring @Controller annotation is also a specialization of @Component annotation. The @Controller annotation indicates 
+that a particular class serves the role of a controller. Spring Controller annotation is typically used in combination 
+with annotated handler methods based on the @RequestMapping annotation. It can be applied to classes only. It’s used to 
+mark a class as a web request handler. It’s mostly used with Spring MVC applications. This annotation acts as a stereotype
+for the annotated class, indicating its role. The dispatcher scans such annotated classes for mapped methods and detects 
+@RequestMapping annotations. Let’s understand all of these by example. 
+
+  @Controller:      This is used to specify the controller.
+  @RequestMapping:  This is used to map to the Spring MVC controller method.
+  @ResponseBody:    Used to bind the HTTP response body with a domain object in the return type.
+  
+// Java Program to Illustrate DemoController File
+
+// Importing package in this code module
+package com.example.demo.controller;
+// Importing required classes
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+// Annotation
+@Controller
+// Main class
+public class DemoController {
+
+	@RequestMapping("/hello")
+	@ResponseBody
+
+	// Method
+	public String helloGFG()
+	{
+		return "Hello GeeksForGeeks";
+	}
+}
+
+@Autowired Annotation:-
+````````````````````
+  The @Autowired annotation marks a Constructor, Setter method, Properties and Config() method as to be autowired 
+that is ‘injecting beans'(Objects) at runtime by Spring Dependency Injection mechanism which is clearly depicted 
+from the image below as shown: 
+ 
+  Autowiring feature of spring framework enables you to inject the object dependency implicitly. It internally 
+uses setter or constructor injection.
+  Autowiring can't be used to inject primitive and string values. It works with reference only.
+  
+  Advantage of Autowiring:-
+  ````````````````````````
+           It requires the less code because we don't need to write the code to inject the dependency explicitly.
+
+Enabling @Autowired annotation:-
+```````````````````````````````
+  Spring beans can be declared either by Java configuration or XML configuration. By declaring beans, you provide 
+metadata to the Spring Container to return the required dependency object at runtime. This is called Spring Bean 
+Autowiring. In java based configuration, all the bean methods are defined in the class with @configuration 
+annotation. At runtime, Spring will provide bean definitions by reading those methods. Using @Autowired, the 
+right dependency is assigned by the Spring Container.
+
+@Configuration
+public class AppConfig {
+
+// bean methods
+}
+
+   In XML based configuration, if the beans are wired using @Autowired annotation, then <context:annotation-config/> has 
+to be added to the XML file. Otherwise, you can include the AutowiredAnnotationBeanPostProcessor bean in the XML 
+configuration file.
+   <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+   
+   The @SpringBootApplication  which is a combination of @Configuration, @EnableAutoConfiguration and @ComponentScan scans 
+all the components or services and other configuration files included in the base and child packages. This will register 
+them in Spring Context and inject the beans at runtime using @Autowired.
+
+   @SpringBootApplication
+public class DemoApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
+}
+
+     Using @Autowired
+
+   XML Configuration file:-
+	 ````````````````````
+	 <?xml version="1.0" encoding="UTF-8"?>
+   <beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd"
+        xmlns:context="http://www.springframework.org/schema/context"
+        >
+
+    <context:annotation-config/>
+    <bean id="customer" class="com.gfg.demo.domain.Customer">
+        <property name="type" value="1" />
+    </bean>
+
+    <bean id="person" class="com.gfg.demo.domain.Person">
+        <property name="name" value="ganesh" />
+        <property name="age" value="21" />
+    </bean>
+   </beans>
+   
+   Java Configuration class:-
+   `````````````````````````
+    If Java Configuration is used to wire the beans, then the configuration class looks like this,
+   
+   
+   package com.gfg.demo.config;
+
+import com.gfg.demo.domain.Customer;
+import com.gfg.demo.domain.Person;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class AppConfig {
+    @Bean
+    public Person person(){
+        Person person = new Person();
+        person.setName("ganesh");
+        person.setAge("21");
+        return person;
+    }
+}
+
+   After enabling @Autowired annotation and deciding on what configuration to be used. The beans can be wired via constructor 
+or properties or setter method. For example, there are two POJO classes Customer and Person. The Customer class has a 
+dependency on the Person.
+
+   Constructor based Autowiring:-
+   `````````````````````````````
+  @Autowired annotation is optional for constructor based injection. Here, 
+  the person object from the container is passed to the constructor while creating the Customer object.
+
+  @Component
+  public class Customer {
+
+    private int type;
+    private Person person;
+
+    public Customer() {
+    }
+
+    @Autowired
+    public Customer(Person person) {
+        this.person = person;
+    }
+  }
+
+   Property-based Autowiring:-
+   ``````````````````````````
+   The person object will be injected into the property person at run time using @Autowired annotation mostly used this type
+   
+   @Component
+  public class Customer {
+
+    private int type;
+
+    @Autowired
+    private Person person;
+}
+
+  Setter based Autowiring:-
+  ```````````````````````
+    The setter method will be called with the Person object at runtime by the container.
+
+   @Autowired
+   public void setPerson(Person person) {
+    this.person = person;
+   }
+   
+   Optional Dependencies:-
+   `````````````````````
+    If the bean of type Person is not defined then Spring will throw NoSuchBeanDefinitionException. It prevents the 
+Spring Container from launching successfully by throwing the following exception.
+
+    org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 
+    'com.gfg.demo.Person' available: expected at least 1 bean which qualifies as 
+    autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+   To fix this, we can set the required attribute of @Autowired as false,
+
+   @Autowired(required = false)
+   private Person person;
+   
+@Required Annotation:-
+````````````````````   
+  Spring Annotations allow us to configure dependencies and implement dependency injection through java programs. 
+Those are a form of metadata that provides data about a program. The @Required annotation in spring is a 
+method-level annotation used in the setter method of a bean property and therefore making the setter-injection 
+compulsory. This annotation suggests that the required bean property must be injected with a value at the 
+configuration time which we will show and explain in the following example.  
+
+   @Autowired(required = false or true)
+   private Person person;
+
+@Value Annotation:-
+`````````````````
+  One of the most important annotations in spring is @Value annotation which is used to assign default values to 
+variables and method arguments. We can read spring environment variables as well as system variables using @Value 
+annotation. It also supports Spring Expression Language (SpEL). It is generally used for injecting values into 
+configuration variables, which we will show and explain in the following example. 
+
+env.properties:-
+``````````````
+student.rollNo = 101
+student.name = Sagar
+student.age = 20
+
+  @Value("${student.rollNo}")
+	private String rollNo;
+	
+	@Value("${student.name}")
+	private String name;
+	
+	@Value("${student.age}")
+	private String age;
+	
+	
+	// Java Program to Illustrate Student Class
+
+// Class
+public class Student {
+
+	// Class data members
+	private int rollNo;
+	private String name;
+	private int age;
+
+	// Setter
+	public void setRollNo(int rollNo)
+	{
+		// this keyword refers to current instance itself
+		this.rollNo = rollNo;
+	}
+
+	// Setter
+	public void setName(String name) { this.name = name; }
+
+	// Setter
+	public void setAge(int age) { this.age = age; }
+
+	// Method
+	public void display()
+	{
+		// Printing attributes of corresponding student
+		System.out.println("Roll No: " + rollNo);
+		System.out.println("Name: " + name);
+		System.out.println("Age: " + age);
+	}
+}

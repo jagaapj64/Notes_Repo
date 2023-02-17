@@ -1,0 +1,60 @@
+@Override
+	public ResponseEntity<?> getXbrlFileV2(XbrlFileRequest xbrlFileRequest) throws IOException {
+		// TODO Auto-generated method stub
+		ByteArrayResource xbrl=getFileBucket(xbrlFileRequest.getFilePathUrl());
+		
+		String fileName = "XmlFileContent.xml";
+		try {
+
+			// Use method to convert XML string content to XML Document object
+			Document xmlDocument = ReportUtils.convertXMLFileToXMLDocumentV2(xbrl.getInputStream());
+
+			// Write to file or print XML
+			String xmlContent = ReportUtils.writeXmlDocumentToXmlFileV2(xmlDocument, fileName);
+			if (Objects.nonNull(xmlContent)) {
+				return ResponseEntity
+						.ok(new MessageResponse(HttpStatus.OK.value(), env.getProperty("file.retrieved"), xmlContent));
+			} else {
+				return ResponseEntity.ok(new MessageResponse(HttpStatus.BAD_REQUEST.value(),
+						env.getProperty("failed.file.retrieved"), xbrlFileRequest.getFilePathUrl()));
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			mongoDBLoggerService.createLogger(env.getProperty("company.fail"), ServiceType.COMPANY, xbrlFileRequest,
+					"api/company/get/file", xbrlFileRequest.getFilePathUrl(), "400");
+			return ResponseEntity.ok(new MessageResponse(HttpStatus.BAD_REQUEST.value(),
+					env.getProperty("failed.file.retrieved"), xbrlFileRequest.getFilePathUrl()));
+		}
+
+	}
+///////////////////////////////
+
+
+public static Document convertXMLFileToXMLDocumentV2(InputStream inputStream) throws IOException {
+		// Parser that produces DOM object trees from XML content
+//		BufferedReader buff_read = new BufferedReader(new InputStreamReader(inputStream,"UTF-8"));
+//		    String  inputLine = null;
+//
+//		    while((inputLine = buff_read.readLine())!= null){
+//		        System.out.println(inputLine);
+//		    }
+//		    inputStream.close();
+	    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+	    factory.isIgnoringElementContentWhitespace();
+		// API to obtain DOM Document instance
+		DocumentBuilder builder = null;
+		
+	
+		try {
+			factory.isIgnoringElementContentWhitespace();
+			builder = factory.newDocumentBuilder();          // Create DocumentBuilder with default configuration
+	
+			Document xmlDocument = builder.parse(inputStream);  // Parse the content to Document object
+	        return xmlDocument;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	

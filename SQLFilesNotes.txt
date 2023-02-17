@@ -1,0 +1,360 @@
+	
+ALTER TABLE public.central_bank_transaction 
+    ADD CONSTRAINT fk_central_bank_transaction_token_id FOREIGN KEY (token_id)
+    REFERENCES public.token_info (id)
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+
+    ALTER TABLE public.commercial_bank_transaction
+    ADD CONSTRAINT fk_commercial_bank_transaction_token_id FOREIGN KEY (token_id)
+    REFERENCES public.token_info (id)
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+    
+ALTER TABLE public.money_broker_transaction
+    ADD CONSTRAINT fk_money_broker_transaction_token_id FOREIGN KEY (token_id)
+    REFERENCES public.token_info (id)
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID; 
+
+ ALTER TABLE public.burn_token_history
+	ADD CONSTRAINT fk_burn_token_history_token_id FOREIGN KEY (token_id)
+    REFERENCES public.token_info (id)
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+
+ALTER TABLE public.mint_token_history
+	ADD CONSTRAINT fk_mint_token_history_token_id FOREIGN KEY (token_id)
+    REFERENCES public.token_info (id)
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+
+ALTER TABLE IF EXISTS public.central_bank_transaction
+ADD COLUMN token_info_id text;
+ALTER TABLE IF EXISTS public.central_bank_transaction
+ADD CONSTRAINT fk_token_info FOREIGN KEY (token_info_id)
+REFERENCES public.token_info ( id ) MATCH SIMPLE
+ON UPDATE NO ACTION
+ON DELETE NO ACTION
+NOT VALID;
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "tokenId")
+	private List<CentralBankTransaction> centralBankTransactions;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "tokenId")
+	private List<CommercialBankTransaction> commercialBankTransactions;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "tokenId")
+	private List<MoneyBrokerTransaction> moneyBrokerTransactions;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "tokenId")
+	private List<MintTokenHistory> mintTokenHistory;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "tokenId")
+	private List<BurnTokenHistory> burnTokenHistory;
+
+
+	@ManyToOne
+	@JoinColumn(name="token_id",referencedColumnName = "id")
+	private TokenInfo tokenId;
+
+
+select * from user_bank_details ub where ub.user_id in (select cn.user_id as id from customer_info cn left join 
+user_roles ur on cn.user_id=ur.user_id left join roles r on ur.role_id=r.id where r.name='ROLE_CUSTOMER') 
+AND ub.commercial_bank_id='ad41fdca-dab1-4a9a-b66f-856f436ae9bc' AND ub.approve_status='APPROVE';
+
+select * from user_bank_details ub where ub.user_id in (select cn.user_id as id from customer_info cn left join 
+user_roles ur on cn.user_id=ur.user_id left join roles r on ur.role_id=r.id left join users u on
+cn.user_id=u.id where r.name='ROLE_CUSTOMER' AND u.user_wallet_id='0.0.45924926' AND cn.account_no='742389'
+AND (cn.first_name='Vijay' or cn.last_name='Kumar')) AND ub.commercial_bank_id='ad41fdca-dab1-4a9a-b66f-856f436ae9bc'
+AND ub.approve_status='APPROVE';
+
+	@Query(value="select * from merchant_transaction mt where (mt.user_id in (select u.id as id from users u left join user_roles ur\r\n"
+			+ "on u.id=ur.user_id left join roles r on ur.role_id=r.id where r.name='ROLE_CUSTOMER' AND u.user_wallet_id=:walletId)\r\n"
+			+ " or mt.merchant_id in (select u.id as id from users u left join user_roles ur on u.id=ur.user_id left join roles r \r\n"
+			+ "on ur.role_id=r.id where r.name='ROLE_MERCHANT' AND u.user_wallet_id=:walletId))\r\n"
+			+ "AND mt.transaction_status='COMPLETED' AND mt.token_id=:tokenId order by mt.transaction_date_time desc",nativeQuery = true)
+	Page<MerchantTransaction> findAllCustomerTransactionsJoinQuery(@Param("tokenId") String tokenId, @Param("walletId") String walletId, Pageable pageable);
+
+{
+  "accountNum": "8894124001248",
+  "accountStatus": true,
+  "address": "98-2,KelvinTownCity,UK",
+  "bankAddress": "string",
+  "bankName": "string",
+  "bankVerified": true,
+  "bank_rep": "string",
+  "bic": "string",
+  "brokerageName": "string",
+  "commercialBankId": "4a095c46-5706-4b79-81c7-419ddeff9a36",
+  "contactDetails": "string",
+  "email": "morgan@yopmail.com",
+  "firstName": "Morgan",
+  "ibanCode": "Joni",
+  "kyc": true,
+  "lastName": "Joni",
+  "licenseNo": "string",
+  "merchantRefId": "string",
+  "mobileNumber": "9856213457",
+  "password": "morgan@123",
+  "pinNumber": "1800",
+  "role": [
+    "ROLE_CUSTOMER"
+  ],
+  "shopName": "string",
+  "telephone": "string"
+}
+
+{
+  "accountNum": "9812004578955",
+  "accountStatus": true,
+  "address": "65-2,ThorTownCity,NewYork",
+  "bankAddress": "string",
+  "bankName": "string",
+  "bankVerified": true,
+  "bank_rep": "string",
+  "bic": "string",
+  "brokerageName": "string",
+  "commercialBankId": "4a095c46-5706-4b79-81c7-419ddeff9a36",
+  "contactDetails": "string",
+  "email": "jeffrin@yopmail.com",
+  "firstName": "Jeffrin",
+  "ibanCode": "",
+  "kyc": true,
+  "lastName": "Danial",
+  "licenseNo": "string",
+  "merchantRefId": "string",
+  "mobileNumber": "8545120036",
+  "password": "jeffrin@123",
+  "pinNumber": "1460",
+  "role": [
+    "ROLE_CUSTOMER"
+  ],
+  "shopName": "string",
+  "telephone": "string"
+}
+
+
+
+OldCode:-
+````````	
+	@Query(value="select * from user_bank_details ub left join user_roles ur\r\n"
+			+ "on ub.user_id=ur.user_id left join roles r on ur.role_id=r.id\r\n"
+			+ "where r.name='ROLE_CUSTOMER' AND ub.commercial_bank_id=:commercialBankId \r\n"
+			+ "AND ub.approve_status=:status",nativeQuery = true )
+	Page<UserBankDetails> getByComBankId(CommercialBankinfo commercialBankId,Pageable pageable,@Param("status") String status);
+
+	@Query(value="select * from user_bank_details ub where ub.user_id in (select cn.user_id as id from customer_info cn left join \r\n"
+			+ "user_roles ur on cn.user_id=ur.user_id left join roles r on ur.role_id=r.id left join users u on \r\n"
+			+ "cn.user_id=u.id where r.name='ROLE_CUSTOMER' AND u.user_wallet_id=:walletId AND cn.account_no=:accountNumber \r\n"
+			+ "AND (cn.first_name=:accountName or cn.last_name=:accountName)) AND ub.commercial_bank_id=:commercialBankInfo AND ub.approve_status=:status ",nativeQuery = true)
+	Page<UserBankDetails> getByComBankIdByAccNameAndWalletIdAndAccNum(CommercialBankinfo commercialBankInfo,@Param("accountName") 
+	        String accountName, @Param("accountNumber") String accountNumber,@Param("walletId") String walletId,@Param("status") String status,
+	        Pageable pageable);
+
+	@Query(value="select * from user_bank_details ub where ub.user_id in (select cn.user_id as id from customer_info cn left join \r\n"
+			+ "user_roles ur on cn.user_id=ur.user_id left join roles r on ur.role_id=r.id left join users u on\r\n"
+			+ "cn.user_id=u.id where r.name='ROLE_CUSTOMER' AND cn.account_no=:accountNumber \r\n"
+			+ "AND (cn.first_name=:accountName or cn.last_name=:accountName)) AND ub.commercial_bank_id=:commercialBankInfo \r\n"
+			+ "AND ub.approve_status=:status ",nativeQuery = true)
+	Page<UserBankDetails> getByComBankIdByAccNumAndAccName(CommercialBankinfo commercialBankInfo,@Param("accountName") String accountName,
+			@Param("accountNumber") String accountNumber, @Param("status")String status, Pageable pageable);
+
+	@Query(value="select * from user_bank_details ub where ub.user_id in (select cn.user_id as id from customer_info cn left join \r\n"
+			+ "user_roles ur on cn.user_id=ur.user_id left join roles r on ur.role_id=r.id left join users u on\r\n"
+			+ "cn.user_id=u.id where r.name='ROLE_CUSTOMER' AND u.user_wallet_id=:walletId \r\n"
+			+ "AND (cn.first_name=:accountName or cn.last_name=:accountName)) AND ub.commercial_bank_id=:commercialBankinfo \r\n"
+			+ "AND ub.approve_status=:status ",nativeQuery = true)
+	Page<UserBankDetails> getByComBankIdByAccNameAndWalletId(CommercialBankinfo commercialBankinfo, @Param("accountName") String accountName,
+			@Param("walletId") String walletId, @Param("status") String status, Pageable pageable);
+
+	@Query(value="select * from user_bank_details ub where ub.user_id in (select cn.user_id as id from customer_info cn left join \r\n"
+			+ "user_roles ur on cn.user_id=ur.user_id left join roles r on ur.role_id=r.id left join users u on\r\n"
+			+ "cn.user_id=u.id where r.name='ROLE_CUSTOMER' AND u.user_wallet_id=:walletId \r\n"
+			+ "AND cn.account_no=:accountNumber) AND ub.commercial_bank_id=:commercialBankinfo AND ub.approve_status=:status ",nativeQuery = true)
+	Page<UserBankDetails> getByComBankIdByAccNumAndWalletId(CommercialBankinfo commercialBankinfo,@Param("accountNumber") String accountNumber,
+			@Param("walletId") String walletId, @Param("status") String status, Pageable pageable);
+
+	@Query(value="select * from user_bank_details ub where ub.user_id in (select cn.user_id as id from customer_info cn left join \r\n"
+			+ "user_roles ur on cn.user_id=ur.user_id left join roles r on ur.role_id=r.id left join users u on\r\n"
+			+ "cn.user_id=u.id where r.name='ROLE_CUSTOMER' AND cn.account_no=:accountNumber) AND ub.commercial_bank_id=:commercialBankinfo \r\n"
+			+ "AND ub.approve_status=:status",nativeQuery = true)
+	Page<UserBankDetails> getByComBankIdByAccNum(CommercialBankinfo commercialBankinfo,@Param("accountNumber") String accountNumber,
+			@Param("status") String status, Pageable pageable);
+	
+	@Query(value="select * from user_bank_details ub where ub.user_id in (select cn.user_id as id from customer_info cn left join \r\n"
+			+ "user_roles ur on cn.user_id=ur.user_id left join roles r on ur.role_id=r.id left join users u on\r\n"
+			+ "cn.user_id=u.id where r.name='ROLE_CUSTOMER' AND u.user_wallet_id=:walletId ) AND ub.commercial_bank_id=:commercialBankinfo \r\n"
+			+ "AND ub.approve_status=:status ",nativeQuery = true)
+	Page<UserBankDetails> getByComBankIdByWalletId(CommercialBankinfo commercialBankinfo, @Param("walletId") String walletId,
+			@Param("status") String status, Pageable pageable);
+
+	@Query(value="select * from user_bank_details ub where ub.user_id in (select cn.user_id as id from customer_info cn left join \r\n"
+			+ "user_roles ur on cn.user_id=ur.user_id left join roles r on ur.role_id=r.id left join users u on\r\n"
+			+ "cn.user_id=u.id where r.name='ROLE_CUSTOMER' AND (cn.first_name=:accountName or cn.last_name=:accountName)) \r\n"
+			+ "AND ub.commercial_bank_id=:commercialBankinfo AND ub.approve_status=:status ",nativeQuery = true)
+	Page<UserBankDetails> getByComBankIdByAccName(CommercialBankinfo commercialBankinfo,@Param("accountName") String accountName, @Param("status") 
+	        String status,Pageable pageable);
+
+
+
+NewCode:-
+````````			
+         @Query(value="select * from user_bank_details ub left join user_roles ur\r\n"
+			+ "on ub.user_id=ur.user_id left join roles r on ur.role_id=r.id\r\n"
+			+ "where r.name='ROLE_CUSTOMER' AND ub.commercial_bank_id=:commercialBankId \r\n"
+			+ "AND ub.approve_status=:status",nativeQuery = true )
+	Page<UserBankDetails> getByComBankId(CommercialBankinfo commercialBankId,Pageable pageable,@Param("status") String status);
+
+	@Query(value="select * from user_bank_details ub where ub.user_id in (select cn.user_id as id from customer_info cn left join \r\n"
+			+ "user_roles ur on cn.user_id=ur.user_id left join roles r on ur.role_id=r.id left join users u on \r\n"
+			+ "cn.user_id=u.id where r.name='ROLE_CUSTOMER' AND u.user_wallet_id like :walletId% AND \r\n"
+			+ "( cn.first_name ilike :accountName% or cn.last_name ilike :accountName% )) AND ub.account_number like :accountNumber% \r\n"
+			+ "AND ub.commercial_bank_id=:commercialBankInfo AND ub.approve_status=:status ",nativeQuery = true)
+	Page<UserBankDetails> getByComBankIdByAccNameAndWalletIdAndAccNum(CommercialBankinfo commercialBankInfo,@Param("accountName") 
+	        String accountName, @Param("accountNumber") String accountNumber,@Param("walletId") String walletId,@Param("status") String status,
+	        Pageable pageable);
+
+	@Query(value="select * from user_bank_details ub where ub.user_id in (select cn.user_id as id from customer_info cn left join \r\n"
+			+ "user_roles ur on cn.user_id=ur.user_id left join roles r on ur.role_id=r.id left join users u on cn.user_id=u.id \r\n"
+			+ "where r.name='ROLE_CUSTOMER' AND ( cn.first_name ilike :accountName% or cn.last_name ilike :accountName% )) \r\n"
+			+ "AND ub.account_number like :accountNumber% AND ub.commercial_bank_id=:commercialBankInfo AND ub.approve_status=:status ",nativeQuery = true)
+	Page<UserBankDetails> getByComBankIdByAccNumAndAccName(CommercialBankinfo commercialBankInfo,@Param("accountName") String accountName,
+			@Param("accountNumber") String accountNumber, @Param("status")String status, Pageable pageable);
+
+	@Query(value="select * from user_bank_details ub where ub.user_id in (select cn.user_id as id from customer_info cn left join \r\n"
+			+ "user_roles ur on cn.user_id=ur.user_id left join roles r on ur.role_id=r.id left join users u on\r\n"
+			+ "cn.user_id=u.id where r.name='ROLE_CUSTOMER' AND u.user_wallet_id like :walletId% AND \r\n"
+			+ "( cn.first_name ilike :accountName% or cn.last_name ilike :accountName% )) AND ub.commercial_bank_id=:commercialBankinfo \r\n"
+			+ "AND ub.approve_status=:status ",nativeQuery = true)
+	Page<UserBankDetails> getByComBankIdByAccNameAndWalletId(CommercialBankinfo commercialBankinfo, @Param("accountName") String accountName,
+			@Param("walletId") String walletId, @Param("status") String status, Pageable pageable);
+
+	@Query(value="select * from user_bank_details ub where ub.user_id in (select cn.user_id as id from customer_info cn left join \r\n"
+			+ "user_roles ur on cn.user_id=ur.user_id left join roles r on ur.role_id=r.id left join users u on \r\n"
+			+ "cn.user_id=u.id where r.name='ROLE_CUSTOMER' AND u.user_wallet_id like :walletId%) AND ub.account_number like :accountNumber% \r\n"
+			+ "AND ub.commercial_bank_id=:commercialBankinfo AND ub.approve_status=:status ",nativeQuery = true)
+	Page<UserBankDetails> getByComBankIdByAccNumAndWalletId(CommercialBankinfo commercialBankinfo,@Param("accountNumber") String accountNumber,
+			@Param("walletId") String walletId, @Param("status") String status, Pageable pageable);
+
+	@Query(value="select * from user_bank_details ub where ub.user_id in (select cn.user_id as id from customer_info cn left join \r\n"
+			+ "user_roles ur on cn.user_id=ur.user_id left join roles r on ur.role_id=r.id left join users u on\r\n"
+			+ "cn.user_id=u.id where r.name='ROLE_CUSTOMER') AND ub.account_number like :accountNumber% \r\n"
+			+ "AND ub.commercial_bank_id=:commercialBankinfo AND ub.approve_status=:status ",nativeQuery = true)
+	Page<UserBankDetails> getByComBankIdByAccNum(CommercialBankinfo commercialBankinfo,@Param("accountNumber") String accountNumber,
+			@Param("status") String status, Pageable pageable);
+	
+	@Query(value="select * from user_bank_details ub where ub.user_id in (select cn.user_id as id from customer_info cn left join \r\n"
+			+ "user_roles ur on cn.user_id=ur.user_id left join roles r on ur.role_id=r.id left join users u on\r\n"
+			+ "cn.user_id=u.id where r.name='ROLE_CUSTOMER' AND u.user_wallet_id like :walletId% ) AND ub.commercial_bank_id=:commercialBankinfo \r\n"
+			+ "AND ub.approve_status=:status ",nativeQuery = true)
+	Page<UserBankDetails> getByComBankIdByWalletId(CommercialBankinfo commercialBankinfo, @Param("walletId") String walletId,
+			@Param("status") String status, Pageable pageable);
+
+	@Query(value="select * from user_bank_details ub where ub.user_id in (select cn.user_id as id from customer_info cn left join \r\n"
+			+ "user_roles ur on cn.user_id=ur.user_id left join roles r on ur.role_id=r.id left join users u on\r\n"
+			+ "cn.user_id=u.id where r.name='ROLE_CUSTOMER' AND (cn.first_name ilike :accountName% or cn.last_name ilike :accountName%)) \r\n"
+			+ "AND ub.commercial_bank_id=:commercialBankinfo AND ub.approve_status=:status ",nativeQuery = true)
+	Page<UserBankDetails> getByComBankIdByAccName(CommercialBankinfo commercialBankinfo,@Param("accountName") String accountName, @Param("status") 
+	        String status,Pageable pageable);
+
+
+
+
+
+/* accountNumber */
+select * from user_bank_details ub where ub.user_id in (select cn.user_id as id from customer_info cn left join 
+user_roles ur on cn.user_id=ur.user_id left join roles r on ur.role_id=r.id left join users u on
+cn.user_id=u.id where r.name='ROLE_CUSTOMER') AND ub.commercial_bank_id='ad41fdca-dab1-4a9a-b66f-856f436ae9bc' 
+AND ub.account_number like '7__%' AND ub.approve_status='APPROVE';
+
+/* walletId */
+select * from user_bank_details ub where ub.user_id in (select cn.user_id as id from customer_info cn left join 
+user_roles ur on cn.user_id=ur.user_id left join roles r on ur.role_id=r.id left join users u on
+cn.user_id=u.id where r.name='ROLE_CUSTOMER' AND u.user_wallet_id like '0%') AND ub.commercial_bank_id=
+'ad41fdca-dab1-4a9a-b66f-856f436ae9bc' AND ub.approve_status='APPROVE'; 
+
+/* accountName */
+select * from user_bank_details ub where ub.user_id in (select cn.user_id as id from customer_info cn left join
+user_roles ur on cn.user_id=ur.user_id left join roles r on ur.role_id=r.id left join users u on
+cn.user_id=u.id where r.name='ROLE_CUSTOMER' AND (cn.first_name ilike 'r%' or cn.last_name ilike 'k%'))
+AND ub.commercial_bank_id='ad41fdca-dab1-4a9a-b66f-856f436ae9bc' AND ub.approve_status='APPROVE'; 
+			
+/* walletId and accountNumber */			
+select * from user_bank_details ub where ub.user_id in (select cn.user_id as id from customer_info cn left join 
+user_roles ur on cn.user_id=ur.user_id left join roles r on ur.role_id=r.id left join users u on 
+cn.user_id=u.id where r.name='ROLE_CUSTOMER' AND u.user_wallet_id like '____4592%') AND ub.account_number like '7__%'
+AND ub.commercial_bank_id='ad41fdca-dab1-4a9a-b66f-856f436ae9bc' AND ub.approve_status='APPROVE'; 		
+
+/* walletId and accountName */
+select * from user_bank_details ub where ub.user_id in (select cn.user_id as id from customer_info cn left join 
+user_roles ur on cn.user_id=ur.user_id left join roles r on ur.role_id=r.id left join users u on
+cn.user_id=u.id where r.name='ROLE_CUSTOMER' AND u.user_wallet_id like '____4592%' AND 
+(cn.first_name ilike 'v%' or cn.last_name ilike 'f%')) AND ub.commercial_bank_id='ad41fdca-dab1-4a9a-b66f-856f436ae9bc'
+AND ub.approve_status='APPROVE';
+	
+/* accountName and accountNumber */	
+select * from user_bank_details ub where ub.user_id in (select cn.user_id as id from customer_info cn left join 
+user_roles ur on cn.user_id=ur.user_id left join roles r on ur.role_id=r.id left join users u on cn.user_id=u.id 
+where r.name='ROLE_CUSTOMER' AND (cn.first_name ilike 'k%' or cn.last_name ilike 'k%')) AND ub.account_number like '7__%'
+AND ub.commercial_bank_id='ad41fdca-dab1-4a9a-b66f-856f436ae9bc' AND ub.approve_status='APPROVE'; 	
+
+/* walletId and accountName and accountNumber */
+select * from user_bank_details ub where ub.user_id in (select cn.user_id as id from customer_info cn left join 
+user_roles ur on cn.user_id=ur.user_id left join roles r on ur.role_id=r.id left join users u on 
+cn.user_id=u.id where r.name='ROLE_CUSTOMER' AND u.user_wallet_id like '____459%'
+AND (cn.first_name ilike 't%' or cn.last_name ilike 'k%')) AND ub.commercial_bank_id='ad41fdca-dab1-4a9a-b66f-856f436ae9bc'
+AND ub.account_number like '7__%' AND ub.approve_status='APPROVE'; 
+			
+select * from user_bank_details ub left join user_roles ur on ub.user_id=ur.user_id left join roles r on ur.role_id=r.id
+where r.name='ROLE_CUSTOMER' AND ub.commercial_bank_id='ad41fdca-dab1-4a9a-b66f-856f436ae9bc' AND ub.approve_status='APPROVE';			
+
+
+/* findAllMerchantsByCommercialBankAndByMerchantName */
+select * from merchant_transaction mt where mt.merchant_id in (select ub.user_id as id from user_bank_details ub
+right join merchant_info mn on ub.user_id=mn.user_id left join user_roles ur on ub.user_id=ur.user_id left join
+roles on ur.role_id=roles.id where roles.name='ROLE_MERCHANT' AND mn.first_name ilike 'm%' AND
+ub.commercial_bank_id='4a095c46-5706-4b79-81c7-419ddeff9a36') AND mt.token_id='0.0.34844400' AND mt.paid_status='PAID_IN' ORDER BY 
+transaction_date_time desc;
+
+/* findAllMerchantsByCommercialBankAndByCustomerName */
+select * from merchant_transaction mt where mt.merchant_id in (select ub.user_id as id from user_bank_details ub
+right join merchant_info mn on ub.user_id=mn.user_id left join user_roles ur on ub.user_id=ur.user_id left join
+roles on ur.role_id=roles.id where roles.name='ROLE_MERCHANT' AND ub.commercial_bank_id='4a095c46-5706-4b79-81c7-419ddeff9a36') 
+AND mt.user_id in (select u.id as id from users u left join user_roles ur on u.id=ur.user_id left join roles r on ur.role_id=r.id 
+where r.name='ROLE_CUSTOMER' AND (u.first_name ilike '' or u.last_name ilike 'l%')) AND token_id='0.0.34844400' AND 
+paid_status='PAID_IN' ORDER BY transaction_date_time desc;			
+			
+
+
+
+
+select * from merchant_transaction mt left join user_roles ur on mt.user_id=ur.user_id left join roles r on ur.role_id=r.id where r.name='ROLE_MERCHANT' 
+	AND mt.transaction_status='COMPLETED' AND mt.token_id=:tokenId order by mt.transaction_date_time desc
+	
+	@Query(value="select * from merchant_transaction mt where mt.token_id=:tokenId AND mt.transaction_status='COMPLETED' AND \r\n"
+			+ "(mt.user_id in (select u.id as id from users u left join user_roles ur on u.id=ur.user_id left join roles r on \r\n"
+			+ "ur.role_id=r.id where r.name='ROLE_CUSTOMER' AND u.user_wallet_id=:walletId ) or mt.merchant_id in \r\n"
+			+ "(select u.id as id from users u left join user_roles ur on u.id=ur.user_id left join roles r on ur.role_id=r.id where r.name='ROLE_MERCHANT' AND u.user_wallet_id=:walletId)) \r\n"
+			+ "order by mt.transaction_date_time desc",nativeQuery = true)
+	Page<MerchantTransaction> findAllCustomerTransactionsByWalletId(@Param("tokenId") String tokenId, @Param("walletId") String walletId, Pageable pageable);
+	
+	@Query(value="select * from merchant_transaction mt where mt.token_id=:tokenId AND mt.transaction_status='COMPLETED' AND \r\n "
+			+ "(mt.user_id in (select u.id as id from users u left join user_roles ur on u.id=ur.user_id left join roles r on ur.role_id=r.id where \r\n"
+			+ "r.name='ROLE_CUSTOMER' AND u.user_wallet_id=:walletId) OR mt.merchant_id in (select u.id as id from users u left join user_roles ur on \r\n"
+			+ "u.id=ur.user_id left join roles r on ur.role_id=r.id where r.name='ROLE_MERCHANT' AND u.user_wallet_id=:walletId)) \r\n"
+			+ "AND mt.transaction_status='COMPLETED' AND mt.token_id=:tokenId AND transaction_date_time >=:fromdt AND \r\n"
+			+ "transaction_date_time <=:todt order by mt.transaction_date_time desc",nativeQuery = true)
+	Page<MerchantTransaction> findAllCustomerTransactionsByWalletIdAndDateTime(@Param("tokenId") String tokenId, @Param("walletId") String walletId, 
+			@Param("fromdt") DateTime fromdt,@Param("todt") DateTime todt,Pageable pageable);
+			

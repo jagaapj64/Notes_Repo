@@ -1,0 +1,25 @@
+10,00000  = 1 Million(10 lacks)
+100,00000 = 10 Million(1 crores)
+100,000,000 =100 Million(10 crores)
+10,00,000,000 =1 Billion(100 crores)
+100,00,000000 =10 Billion(1000 crores)
+1,00000000000 = 100 Billion(10000 crores)
+1 hbar is equal to tinybars=100 million tinybar
+Hbar units
+The base unit of hbar, equivalent to 100 million tinybar.
+
+
+https://kriptomat.io/cryptocurrencies/hedera-hashgraph/what-is-hedera-hashgraph/
+
+Hashgraphe Consensus:-
+`````````````````````
+https://hedera.com/learning/what-is-hashgraph-consensus
+
+Why Hedera Hashgraphe:-
+``````````````````````
+     Hedera Token Service enables the minting, management, and transfer of fungible and non-fungible assets that are representative 
+of physical or digital goods. Verify the authenticity of digital or physical items and track products throughout a supply chain.
+
+Why do companies create tokens:-
+```````````````````````````````
+https://www.investopedia.com/terms/c/crypto-token.asp

@@ -1,0 +1,50 @@
+encrypt to decrypt website:-
+```````````````````````````
+https://www.javainuse.com/jasypt
+
+convert hexa to string:-
+```````````````````````
+https://string-functions.com/hex-string.aspx
+
+Drogan Class Link:-
+``````````````````
+https://testnet.dragonglass.me/hedera/search?q=0.0.47716234
+
+MYCIPL HELPDESK LINK :-
+``````````````````````
+https://helpdesk.mycipl.com/open.php
+
+download jdk 11:-
+````````````````
+https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html
+
+
+Git Tutuorial :-
+``````````````
+https://www.youtube.com/watch?v=rfwGWQjaO3A&list=PLUDwpEzHYYLuMNNTu0EdWBeBtXdRhj4Lv&index=2
+
+String now=new DateTime().toString("yyyy-MM-dd");
+		DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS");
+		String from_time=now +" " + auction.getTimeFrom();
+	
+		DateTime startTime = dtf.parseDateTime(from_time);
+		String to_time=now +" " +auction.getTimeEnd();
+		DateTime endTime = dtf.parseDateTime(to_time);
+		
+		
+   List<NFTImageDetailsResponse> pagedStatuses = finalArray.stream().limit(pageable.getPageSize()).parallel().collect(Collectors.toList());
+		   page=new PageImpl<>(pagedStatuses,pageable,finalArray.size());
+		   
+
+# Steps to follow to go to branch and commit changes in branch#
+```````````````````````````````````````````````````````````````
+* Step1: git clone https://cipl_senthilnathan@bitbucket.org/cipl_senthilnathan/remco-mobile.git
+* Step2: Go to branch : git fetch && git checkout databasemigration
+* Step3: Add/ Modify some files - git add <file_name>
+* Step4: git commit -m <commit message>
+* Step5: git push
+		
+
+1) when we are passing object dto as input we need to use getMethod instead of postMethod		
+		
+		

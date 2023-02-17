@@ -1,0 +1,121 @@
+1. What Is Service Discovery?
+    When we talk about a microservices architecture, we refer to a system with a large number of small 
+services, working with each other.
+
+An important feature of such architectures is auto-scaling. The number of instances of a microservice 
+varies based on the system load. Initially, you could have 5 instances of Microservice5, which go up 
+later to 20, 100, or 1000!
+
+Two important questions arise :-
+    1.How does Microservice4 know how many instances of Microservice5 are present, at a given time?
+    2.In addition, how does it distribute the load among all of them?
+
+Hardcoding URLs Is Not an Option :-
+
+   One way to do this is to hard-code the URLs of Microservice5 instances, within Microservice4. That 
+means every time the number of Microservice5 instances changes (with the addition of new one or the 
+deletion of existing one), the configuration within Microservice4 needs to change. This is a big
+headache.
+
+Using Service Discovery :-
+
+   Ideally, you want to change the number of instances of Microservice5 based on the load, and make 
+Microservice4 dynamically aware of the instances.
+   That's where the concept of Service Discovery comes into the picture.
+   The component that provides this service is generally called a naming server.
+   All instances of all the microservices register themselves with the naming server. Whenever a 
+microservice wants to talk to another microservices, it asks the naming server about the available 
+instances.
+   In the example above, whenever a new instance of Microservice5 is launched, it registers with the 
+naming server. When Microservice4 wants to talk to Microservice5, it asks the naming server: what are 
+the available instances of Microservice5?.
+
+10. Learn how to set up Ribbon as a load balancer for microservices with a little background on the 
+different types of load balancing ?
+
+    In the previous microservices tutorial, we learned how to communicate with other microservices 
+using Feign as a REST client and Eureka server as a service discovery.
+    In all cases, we consider only one instance of a microservice, which calls another instance of a 
+dependent microservice (EmployeeDasBoard service call to EmployeeSearch service).
+    This is good for demo purposes, or when you are practicing how to develop microservices.
+    In production, it is certainly not the case- we break monolithic applications into microservice 
+applications because we can scale each service based on the payload. A single instance of a service is
+unimaginable in production- so what we generally do is use a load balancer, which balances the payload
+among multiple instances of a service.
+    Before digging into Ribbon, the client side load balancer for microservice architecture, let's 
+discuss how our old fashioned Java EE services, AKA monolith, maintain load balancing.
+
+
+Server Side Load Balancing :-
+
+   In Java EE architecture, we deploy our war/ear files into multiple application servers, then we 
+create a pool of server and put a load balancer (Netscaler) in front of it, which has a public IP. 
+The client makes a request using that public IP, and Netscaler decides in which internal application 
+server it forwards the request by round robin or sticky session algorithm. We call it server side load 
+balancing.
+
+
+
+   Problem: The problem of server side load balancing is if one or more servers stop responding, 
+we have to manually remove those servers from the load balancer by updating the IP table of the load
+balancer.
+
+   Another problem is that we have to implement a failover policy to provide the client with a 
+seamless experience.But microservices don't use server side load balancing. They use client side load
+balancing.
+
+Client Side Load Balancing :-
+
+   To understand client side load balancing, let's recap microservices architecture. We generally 
+create a service discovery like Eureka or Consul, where each service instance registers when 
+bootstrapped. Eureka server maintains a service registry; it maintains all the instances of the 
+service as a key/value map, where the {service id} of your microservice serves as the key and 
+instances serve as the value. Now, if one microservice wants to communicate with another microservice, 
+it generally looks up the service registry using DiscoveryClient and Eureka server returns all the 
+instances of the calling microservice to the caller service. Then it was a caller service headache
+which instance it calls. Here, client side load balancing stepped in. Client side load balancing
+maintains an algorithm like round robin or zone specific, by which it can invoke instances of calling
+services. The advantage is s service registry always updates itself; if one instance goes down, it 
+removes it from its registry, so when the client side load balancer talks to the Eureka server, it 
+always updates itself, so there is no manual intervention- unlike server side load balancing- to 
+remove an instance.
+
+   Another advantage is, as the load balancer is in the client side, you can control its load balancing 
+algorithm programmatically. Ribbon provides this facility, so we will use Ribbon for client side load
+balancing.
+
+3. Spring RestTemplate – HTTP GET Example
+
+   Available methods for executing GET APIs are:-
+
+getForObject(url, classType) :–
+    retrieve a representation by doing a GET on the URL. The response (if any) is unmarshalled to
+given class type and returned.
+
+getForEntity(url, responseType) :–
+    retrieve a representation as ResponseEntity by doing a GET on the URL.
+
+exchange(url, httpMethod, requestEntity, responseType) :–
+    execute the specified RequestEntity and return the response as ResponseEntity.
+
+execute(url, httpMethod, requestCallback, responseExtractor):–
+    execute the httpMethod to the given URI template, preparing the request with the RequestCallback,
+and reading the response with a ResponseExtractor.
+
+Annotation Type MapsId. @Target(value={METHOD,FIELD}) @Retention(value=RUNTIME) public @interface MapsId. Designates a ManyToOne or OneToOne relationship attribute that provides the mapping for an EmbeddedId primary key, an attribute within an EmbeddedId primary key, or a simple primary key of the parent entity.
+,referencedColumnName = "to_user_id"
+
+1. Zipkin :-
+```````````
+    Zipkin was originally developed at Twitter, based on a concept of a Google paper that described Google’s internally-built 
+distributed app debugger – dapper. It manages both the collection and lookup of this data. To use Zipkin, applications are 
+instrumented to report timing data to it.
+
+   If you are troubleshooting latency problems or errors in an ecosystem, you can filter or sort all traces based on the application, 
+length of trace, annotation, or timestamp. By analyzing these traces, you can decide which components are not performing as per
+expectations, and you can fix them.
+
+UnderStanding of Spring Boot Security:-
+`````````````````````````````
+https://www.javainuse.com/webseries/spring-security-jwt/chap3
+https://www.javainuse.com/spring/spring-boot-oauth-introduction

@@ -1,0 +1,46 @@
+https://www.sailpoint.com/identity-library/difference-between-authentication-and-authorization/
+
+Jwt token :
+```````````
+https://anil-pace.medium.com/json-web-tokens-vs-oauth-2-0-85dd0b32057d#7653
+
+GrantedAuthorities :-
+
+https://www.javadevjournal.com/spring-security/granted-authority-vs-role-in-spring-security/
+
+To Convert long to String :-
+````````````````````````````
+  String s2 = Long.toString(long value);
+  String s3 = String.valueOf(long value);
+
+What is HTTP :-
+``````````````
+   The Hypertext Transfer Protocol (HTTP) is designed to enable communications between clients and servers.HTTP works as a request-
+response protocol between a client and server.
+
+   Example: A client (browser) sends an HTTP request to the server; then the server returns a response to the client. The response 
+contains status information about the request and may also contain the requested content.
+
+Percentage Formula:-
+https://www.cuemath.com/commercial-math/taxes/
+
+Rollbackfor Transaction:-
+https://www.netsurfingzone.com/spring/transactional-rollbackfor-example-using-spring-boot/#:~:text=%40Transactional
+(rollbackFor%20%3D%20%7B%20RuntimeException,as%20the%20value%20of%20rollbackFor).
+
+Spring MVC:-
+```````````
+https://www.baeldung.com/spring-mvc-tutorial
+
+Exception :-
+`````````
+Throws:-
+``````
+The Java throws keyword is used to declare an exception. It gives an information to the programmer that there may occur an exception.
+So, it is better for the programmer to provide the exception handling code so that the normal flow of the program can be maintained.
+Rule: If we are calling a method that declares an exception, we must either caught or declare the exception.
+
+There are two cases:-
+````````````````````
+Case 1: We have caught the exception i.e. we have handled the exception using try/catch block.
+Case 2: We have declared the exception i.e. specified throws keyword with the method.

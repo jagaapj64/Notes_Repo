@@ -1,0 +1,559 @@
+1) @OneToOne Relationships:-
+```````````````````````````
+JPA One-To-One Mapping:-
+``````````````````````
+  The One-To-One mapping represents a single-valued association where an instance of one entity is associated with an instance 
+of another entity. In this type of association one instance of source entity can be mapped atmost one instance of target entity.
+
+ @OneToOne Example:-
+ ``````````````````
+   In this example, we will create a One-To-One relationship between a Student and Address in such a way that one student can be 
+issued only one type of address.
+
+3. Using a Foreign Key:-
+``````````````````````
+3.1. Modeling With a Foreign Key
+Let's have a look at the following ER diagram, which represents a foreign key-based one-to-one mapping:
+
+An ER Diagram mapping Users to Addresses via an address_id foreign key
+In this example, the address_id column in users is the foreign key to address.
+
+3.2. Implementing With a Foreign Key in JPA
+First, let's create the User class and annotate it appropriately:
+
+package com.example.annotation.demo.model;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table(name="student_details")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class Student {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="student_id")
+	private long studentId;
+	private String studentName;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="address_Id", referencedColumnName = "id")
+	private Address address;
+	/*
+	 * The direction of a relationship can be either bidirectional or
+	 * unidirectional. A bidirectional relationship has both an owning side and an
+	 * inverse side. A unidirectional relationship has only an owning side.
+	 */}
+
+
+  Note that we place the @OneToOne annotation on the related entity field, Address.
+  Also, we need to place the @JoinColumn annotation to configure the name of the column in the users table that maps to the primary key 
+in the address table. If we don't provide a name, Hibernate will follow some rules to select a default one.
+  
+  Finally, note in the next entity that we won't use the @JoinColumn annotation there. This is because we only need it on the owning 
+ side of the foreign key relationship. Simply put, whoever owns the foreign key column gets the @JoinColumn annotation.
+ 
+ package com.example.annotation.demo.model;
+
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table(name="address_details")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class Address {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="Id")
+	private long Id;
+	private String street;
+	private String city;
+	@OneToOne(mappedBy = "address")
+	private Student student; 
+	
+}
+
+4.Using a Shared Primary Key:-
+````````````````````````````
+4.1. Modeling With a Shared Primary Key
+
+   In this strategy, instead of creating a new column address_id, we'll mark the primary key column (user_id) of the address 
+table as the foreign key to the users table:
+
+package com.example.annotation.demo.model;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table(name="student1_details")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class Student1 {
+
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="student_id")
+	private long studentId;
+	private String studentName;
+	@OneToOne(mappedBy = "student1",cascade = CascadeType.ALL)
+	@PrimaryKeyJoinColumn
+	private Address1 address1;
+	}
+
+
+package com.example.annotation.demo.model;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table(name="address1_details")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class Address1 {
+
+	@Id
+	@Column(name="student_id")
+	private long Id;
+	private String street;
+	private String city;
+	@OneToOne
+	@MapsId
+	@JoinColumn(name="student_id")
+	private Student1 student1;
+}
+
+   The mappedBy attribute is now moved to the User class since the foreign key is now present in the address table. We've 
+also added the @PrimaryKeyJoinColumn annotation, which indicates that the primary key of the User entity is used as the 
+foreign key value for the associated Address entity.
+
+   We still have to define an @Id field in the Address class. But note that this references the user_id column, and it no 
+longer uses the @GeneratedValue annotation. Also, on the field that references the User, we've added the @MapsId annotation,
+which indicates that the primary key values will be copied from the User entity.
+
+
+5. Using a Join Table:-
+``````````````````````
+  One-to-one mappings can be of two types: optional and mandatory. So far, we've seen only mandatory relationships.
+  
+  Now let's imagine that our employees get associated with a workstation. It's one-to-one, but sometimes an employee 
+might not have a workstation and vice versa.
+  
+  Now, whenever we have a relationship, we'll make an entry in the emp_workstation table and avoid nulls altogether.
+
+package com.example.annotation.demo.model;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table(name="employee_details")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class Employee {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="emp_id")
+	private long empId;
+	private String empName;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinTable(name = "employee_workstation", joinColumns = {
+			@JoinColumn(name = "employee_id", referencedColumnName = "emp_id") }, inverseJoinColumns = {
+					@JoinColumn(name = "workstation_id", referencedColumnName = "station_id") })
+	private WorkStation workStation;
+}
+
+package com.example.annotation.demo.model;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table(name="work_station_details")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class WorkStation {
+
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="station_id")
+	private long stationId;
+	private String floor;
+	@OneToOne(mappedBy = "workStation")
+	@JsonIgnore
+	private Employee employee;
+}
+
+
+2) @OneToMany Relationships:-
+```````````````````````````
+JPA One-To-Many Mapping:-
+```````````````````````
+   The One-To-Many mapping comes into the category of collection-valued association where an entity is associated with a collection 
+of other entities. Hence, in this type of association the instance of one entity can be mapped with any number of instances of 
+another entity.
+ or Simply put, one-to-many mapping means that one row in a table is mapped to multiple rows in another table.
+@OneToMany Example:-
+``````````````````
+ In this example, we will create a One-To-Many relationship between a Card and Item in such a way that one card 
+can be issued more than one type of item.
+
+ For this example, we'll implement a cart system where we have a table for each cart and another table for each item. One 
+cart can have many items, so here we have a one-to-many mapping.
+
+1. UniDirectional:
+``````````````````
+package com.example.annotation.demo.model;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table(name="items_details")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+public class Items {
+
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="item_id")
+	private long itemId;
+	private String itemName;
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="card_details")
+	private Card card;
+	
+}
+
+package com.example.annotation.demo.model;
+
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table(name="card_details")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class Card {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="card_id")
+	private long cardId;
+	private String ownerName;
+
+}
+
+2.BiDirectional:-
+```````````````
+package com.example.annotation.demo.model;
+
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table(name="card1_details")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class Card1 {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="card1_id")
+	private long cardId;
+	@Column(name="owner_name")
+	private String ownerName;
+	@OneToMany(mappedBy = "card1")
+	@JsonIgnore
+	private Set<Items1> items1;
+}
+
+package com.example.annotation.demo.model;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table(name = "items1_details")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+public class Items1 {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "item1_id")
+	private long itemId;
+	@Column(name = "item_name")
+	private String itemName;
+	@ManyToOne
+	@JoinColumn(name = "card1_id")
+	private Card1 card1;
+}
+
+
+3)@ManyToMany Relationships:-
+````````````````````````````
+JPA Many-To-Many Mapping:-
+````````````````````````
+  The Many-To-Many mapping represents a collection-valued association where any number of entities can be associated with a 
+collection of other entities. In relational database any number of rows of one entity can be referred to any number of rows 
+of another entity.
+
+2.Basic Many-to-Many:-
+`````````````````````
+2.1. Modeling a Many-to-Many Relationship:-
+``````````````````````````````````````````
+   A relationship is a connection between two types of entities. In the case of a many-to-many relationship, both sides can relate 
+to multiple instances of the other side.
+   Let's take the example of students marking the courses they like.
+   A student can like many courses, and many students can like the same course:
+   As we know, in RDBMSs we can create relationships with foreign keys. Since both sides should be able to reference the other, 
+we need to create a separate table to hold the foreign keys:
+   Such a table is called a join table. In a join table, the combination of the foreign keys will be its composite primary key.
+
+package com.example.annotation.demo.model;
+
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Table(name = "manytomany_course_details")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
+@Getter
+public class CourseDetails {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "course_id")
+	private long courseId;
+	@Column(name = "course_name")
+	private String courseName;
+	@ManyToMany
+	(mappedBy = "courseDetails")
+    @JsonBackReference
+	private Set<StudentDetails> studentDetails;
+
+}
+
+
+package com.example.annotation.demo.model;
+
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Table(name = "manytomany_student_details")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
+@Getter
+public class StudentDetails {
+//	https://www.javaguides.net/2022/03/spring-data-jpa-many-to-many-bidirectional-mapping.html
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "student_id")
+	private long studentId;
+	@Column(name = "student_name")
+	private String studentName;
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "student_and_course_details", joinColumns = @JoinColumn(name = "student_id", referencedColumnName = "student_id"), inverseJoinColumns = @JoinColumn(name = "course_id", referencedColumnName = "course_id"))
+	@JsonManagedReference
+	private Set<CourseDetails> courseDetails;
+}

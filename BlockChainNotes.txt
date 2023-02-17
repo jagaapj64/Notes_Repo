@@ -1,0 +1,261 @@
+1. What is Blockchain ?
+https://www.youtube.com/watch?v=UqQMSVfugFA&list=PLsyeobzWxl7oY6tZmnZ5S7yTDxyu4zDW-&index=2
+
+2.what is blockchain prerequisite ?
+   Fundamental skill and Knowledge in Technical Field
+An individual should have a good knowledge of Information technologies, Information security, and 
+computer science. The basic understanding of an aspiring blockchain developer should be clear in
+distributed systems, networking, cryptography and data structures.
+
+3.Benefits of blockchain - 
+   Blockchain increases trust, security, transparency, and the traceability of data shared across a 
+business network — and delivers cost savings with new ...
+
+4. Importance of Blockchain Technology :-
+1. Security
+2. Transparency
+3. Inexpensive
+4. Time of Transaction is Less
+5. Increased Efficiency in Finance
+6. Fraud Protection for Businesses
+7. Increased Use of Blockchain Token
+8. Scope of Innovation
+9. No Middlemen in Transaction
+10. Numerous Application of Blockchain
+11. Internet of Things
+12. Smart Contracts
+13. High Flexibility of Usage
+14. Decentralized Autonomous Organization (DAOs)
+15. Sensitive Digital Records
+16. Huge Saving
+17. Financial Privacy
+18. Prevention of Data Leaks and Hacking
+19. Freedom ack to people
+20. Provenance
+21. Digital Footprint
+
+5. What is Cryptocurrency ?
+   Cryptocurrency, also known as crypto, is a type of online payment method that can be exchanged 
+online to purchase goods and services. It is much similar to real-world currency, but it does not 
+have any physical appearance. It is encrypted, transparent, and decentralized digital money, which is
+based on blockchain technology. There are approximately 5000 different types of cryptocurrencies, 
+among which Bitcoin and Ethereum are the popular ones.
+   Cryptocurrency is digital or virtual currency, which is transparent, decentralized, and 
+secured by cryptography.
+   The most important feature of cryptocurrency is that it is a decentralized currency. Decentralized 
+means it is not issued by the central authorities, the user owns it, and neither government nor the 
+bank controls it. It is also known as the money of the future.
+
+6. What is Bitcoin Mining ?
+   https://www.youtube.com/watch?v=SlMmPu3PvRk
+
+7. What is the Double-spending Problem ?
+
+   The double spending problem is a phenomenon in which a single unit of currency is spent simultaneously 
+more than once. This creates a disparity between the spending record and the amount of that currency 
+available.
+
+   Imagine, for example, if someone walks into a clothing store with only $10 and buys a $10 shirt, then 
+buys another $10 shirt with the same $10 already paid to the cashier. While this is difficult to do 
+with physical money—in part because recent transactions and current owners can be easily verified in
+real-time—there’s more opportunity to do it with digital currency.
+
+   Double spending is most commonly associated with Bitcoin because digital information can be manipulated 
+coin is also a target for thieves to double-spend because Bitcoin is a peer-to-peer medium of exchange
+that doesn’t pass through any intermediaries or institutions.
+
+8. How Does Double-spending Bitcoin Work?
+   Fundamentally, a Bitcoin double spend consists of a bad actor sending a copy of one transaction to 
+make the copy appear legitimate while retaining the original, or erasing the first transaction 
+altogether. This is possible—and dangerous—for Bitcoin or any digital currency because digital 
+information is more easily duplicated. There are a few different ways criminals attempt to double-
+spend Bitcoin.
+
+8.what is hashing in blockchain ?
+https://blockgeeks.com/guides/what-is-hashing/
+
+   A hash is a function that meets the encrypted demands needed to solve for a blockchain computation. Hashes are of a fixed length 
+since it makes it nearly impossible to guess the length of the hash if someone was trying to crack the blockchain. The same data 
+will always produce the same hashed value.
+
+  Hashing is generating a value or values from a string of text using a mathematical function.Hashing is one way to enable security 
+during the process of message transmission when the message is intended for a particular recipient only. A formula generates the hash,
+which helps to protect the security of the transmission against tampering.
+  In simple terms, hashing means taking an input string of any length and giving out an output of a fixed length. In the context 
+of cryptocurrencies like bitcoin, the transactions are taken as input and run through a hashing algorithm (bitcoin uses SHA-256) 
+which gives an output of a fixed length.
+
+9. What is Consensus algorithm in Blockchain ?
+
+   The purpose of a consensus mechanism is to bring all the nodes in agreement, that is, trust one 
+another, in an environment where the nodes don’t trust each other.
+
+   All the transactions in the new block are then validated and the new block is then added to the 
+blockchain. Note that, the block will get added to the chain which has the longest block height
+(see blockchain forks to understand how multiple chains can exist at a point of time). Miners(special 
+computers on the network) perform computation work in solving a complex mathematical problem to add 
+the block to the network, hence named, Proof-of-Work. With time, the mathematical problem becomes 
+more complex.
+
+10. How PoW works?
+
+   “The Proof of Work consensus algorithm involves solving a computational challenging puzzle in order to 
+create new blocks in the Bitcoin blockchain. Colloquially, the process is known as ‘mining’, and the 
+nodes in the network that engage in mining are known as ‘miners’. The incentive for mining transactions
+lies in economic payoffs, where competing miners are rewarded with 12.5 bitcoins(at the time of writing 
+reduced by half its current value with time) and a small transaction fee.”
+
+   The process of verifying the transactions in the block to be added, organizing these transactions in 
+a chronological order in the block and announcing the newly mined block to the entire network does not 
+take much energy and time. The energy consuming part is solving the ‘hard mathematical problem’ to link 
+the valid blockchain.
+
+   When a miner finally finds the right solution, the node broadcasts it to the whole network at the same 
+time, receiving a cryptocurrency prize (the reward) provided by the PoW protocol. At the time of 
+writing this article, mining a block in the bitcoin network gives the winning miner 12.5 bitcoins. 
+The amount of bitcoins won halves every four years or so(thats how the bitcoin network is designed).
+ So, the next deduction in the amount of bitcoin is due at around 2020-21(with the current rate and 
+growth).
+
+11. difference between proof of work and proof of stake in bockchain ?
+
+ https://www.youtube.com/watch?v=DCUas_vwPf4
+
+What is Byzantine fault tolerance ?
+
+   Byzantine Fault Tolerance is a mechanism that enables a decentralized, trustless network to function
+even in the presence of malfunctioning or malicious nodes.
+
+   For a trustless network to function successfully, participants adhere to a predetermined consensus 
+mechanism. However, it’s likely some nodes will fail, misbehave, or act maliciously, and as a result
+give conflicting information to different parts of the network. Byzantine Fault Tolerance (BFT) makes 
+it possible for a network to continue functioning as long as two-thirds of the network remains 
+compliant.
+
+   Most common consensus mechanisms, like proof of work and proof of stake, are designed to be Byzantine
+Fault Tolerant. BFT is based on the Byzantine Generals Problem, an abstract problem that discusses 
+the issue of coping with node failure.
+
+12. What is Hbar in Hashgraphe ?
+
+   HBAR is the native, energy-efficient cryptocurrency of the Hedera public network. Hbars are used to
+power decentralized applications and protect the network from malicious actors.
+
+14. What is Smart Contract in Blockchain technology ?
+
+   A Smart Contract (or cryptocontract) is a computer program that directly and automatically controls 
+the transfer of digital assets between the parties under certain conditions. A smart contract works in 
+the same way as a traditional contract while also automatically enforcing the contract. Smart contracts
+are programs that execute exactly as they are set up(coded, programmed) by their creators. Just like 
+traditional contract is enforceable by law, smart contracts are enforceable by code. 
+
+ How smart contracts work:-
+   A smart contract is just a digital contract with the security coding of the blockchain. A smart 
+contract has details and permissions written in code that require an exact sequence of events to take
+place to trigger the agreement of the terms mentioned in the smart contract. It can also include the
+time constraints that can introduce deadlines in the contract. 
+   This contract is embedded in the blockchain making it transparent, immutable, inexpensive and 
+decentralized. Every smart contract has its address in the blockchain. The contract can be interacted
+with by using its address presuming the contract has been broadcasted in the network. 
+
+15. What is Hedera API(HAPI) ?
+   The Hedera API (HAPI) is always evolving based on user feedback, usability testing, and necessary 
+changes in functionality directed and approved by the Hedera Governing Council. Sometimes these changes
+require the deprecation or addition of functionalities.
+
+16.  What is hashgraph?
+
+   Hashgraph is a distributed consensus algorithm and data structure that is fast, fair, and secure.
+This indirectly creates a trusted community, even when members do not necessarily trust each other.
+Hedera is the only authorized public network to use hashgraph. You can learn more about the consensus
+algorithm here.
+
+17.What is Non Fungible Token ?
+https://www.youtube.com/watch?v=bHJlDxrYqa4
+https://www.youtube.com/watch?v=zRsMOXbjqJkx
+
+18. What is Minting ?
+   Minting is the process of registering your domin on the Blockchain.for example when your buy an house and
+we signed on that house staked on blockchain and the house is special for us and no one has to buy it and given to 
+key through we can access.
+https://www.youtube.com/watch?v=eAYkfWUXFk4 
+
+19.what is non fungible token hedera hashgraph ?
+   A non-fungible token is a type of cryptographic token unique in its attributes typically programmed 
+into the NFTs issuing smart contract or are part of the initial native configuration of the NFT before 
+issuance.
+ Non-fungible tokens (NFTs) explained :-
+```````````````````````````````````````
+ https://hedera.com/learning/what-is-a-non-fungible-token-nft
+   A non-fungible token is a type of cryptographic token that represents a unique item. These items
+may be digital or physical and represent things like sneakers, art, a plane ticket, university degree,
+commercial real estate, or in-game items for an online game. NFTs enable owners of a unique item to 
+prove their ownership and the authenticity of an item. NFTs enable businesses or individuals buying and
+selling items in a marketplace the freedom to trust that the item they'll receive is truly authentic 
+since the NFTs unique ID will match up with either the original issuer of the item or the service which 
+performs authenticity checks.
+
+20). what is difference b/w 
+You are hereHome > java >
+How To Write REST Consumer API Using Spring Boot? : RestTemplate
+javaRestTemplateSpringSpring Bootby devs5003 - October 30, 20200
+How to write REST Consumer API using Spring Boot : RestTemplateApart from three well known layers i.e. Presentation Layer, Service Layer and Data Layer, we may also have an Integration Layer. This layer generally works with web services concept and connects two different applications to exchange data between them. One application refers to producer/provider, whereas other refers to consumers. However, we have already gone through the REST Producer API in another article where we had developed different operations to produce REST API. Now, we must have a question in mind ‘How to write REST Consumer API using Spring Boot : RestTemplate’. We had also discussed a bit about RestTemplate( The Spring REST Client). In fact, RestTemplate provides us Consumer methods to consume services provided by producer applications. We can even have various non-java Consumer applications. However, our RestTemplate is written in Java only. Accordingly, let’s start working on ‘How to write a REST Consumer API using Spring Boot: RestTemplate’.
+
+Table of Contents (Click on links below to navigate) [hide]
+
+1 What will you learn from this article ?
+2 What is Rest Template ?
+3 What is difference between getForObject() and getForEntity() ?
+4 What is difference between postForObject() and postForEntity() ?
+5 What is exchange() method in RestTemplate used for ?
+6 What is the format of data Consumer Application receives from Producer Application ?
+7 What all parameters are expected to write consumer methods in RestTemplate ?
+8 How to implement RestTemplate methods ?
+8.1 Save Invoice
+8.1.1 Output:
+8.2 Get All Invoices
+8.2.1 Output:
+8.3 Get One Invoice
+8.3.1 Output:
+8.4 Update Invoice
+8.4.1 Output:
+8.5 Delete Invoice
+8.5.1 Output:
+9 Complete Code
+10 How to test the application ?
+11 How to convert ResponseEntity to Java object ?
+11.1 Solution#1 : By using getForEntity() method and returning Array Of Objects
+11.2 Solution#2 : By using exchange() method and returning List Of Objects
+11.3 Solution#3 : By using exchange() method and returning Array Of Objects
+12 Summary
+What will you learn from this article ?
+1) What is RestTemplate and what is it used for?
+2) What is the difference between the various methods of RestTemplate?
+3) When to use, which method of RestTemplate?
+4) How is the exchange () method used in implementing Rest Consumer Web Services?
+5) Also, Which format of data does the producer application provide and which format of data does the consumer application receive?
+6) What are all parameters of RestTemplate method to develop the consumer application?
+7) How to write a REST Consumer API using Spring Boot: RestTemplate?
+8) Additionally, How to use slf4j Logger effectively while implementing RestTemplate?
+9) Finally, How to test the developed application?
+
+What is Rest Template ?
+In a nutshell, RestTemplate is a predefined class in Spring Boot REST project. Moreover  It helps in making HTTP calls to Producer application with all method types eg. GET, POST, PUT, DELETE etc. However Spring Boot framework doesn’t auto configure this class. It also supports JSON/XML to Object and Object to JSON/XML auto-conversion. Moreover, it requires Endpoint details from a producer application like IP, PORT, Paths, Method Type, Input data format and Output data format etc. Additionally, RestTemplate provides the exchange() method to consume the web services for all HTTP methods. In fact, RestTemplate helps in making HTTP Rest Calls.
+
+What is difference between getForObject() and getForEntity() ?
+Having knowledge of getforentity vs getforobject is important for us as we will be using these methods in our implementation.
+
+getForObject(url, T.class) : 
+    It retrieves an entity using HTTP GET method on the given URL and returns T.  It doesn’t return
+ Status, Header params but only Response Body.
+getForEntity(url, T.class) : 
+    It retrieves an entity by using HTTP GET method for the given URL and returns ResponseEntity<T>.
+
+https://javatechonline.com/how-to-write-rest-consumer-api-using-spring-boot-resttemplate/
+
+21) What is RequestEntity and ResponseEntity?
+RequestEntity<T> extends HttpEntity and adds additional information of HTTP method and uri to the request. org. ... http. ResponseEntity<T> also extends HttpEntity, where we can add additional HttpStatus (see also @ResponseStatus) to the response.
+
+{"status":200,"message":"User registered successfully!","response":{"id":"5495fbbd-bb02-4f95-aa14-dbfc968f29fd","username":"8956234100","email":"ravi@gmail.com","password":"$2a$10$fghgLCX3yfjL7Ni0NX8uX.rNp5g16/JBy7ff1O6leCkVvw9JT7CUe","firstName":"ravi","pinNumber":"1200","mobileNum":"8956234100","methodName":null,"roles":[{"id":"dcdf7439-265f-4821-8436-96e8f3c3a664","name":"ROLE_CUSTOMER"}],"lastName":"1"},"httpStatus":null}
+{"status":200,"message":"User registered successfully!","response":{"id":"17bc9a2c-e038-4122-96af-9ebc74b68445","username":"8956421300","email":"raju@gmail.com","password":"$2a$10$MjFTLIr.JpjRDRlPxyu7I.qgWlyjvPebxmStglDGskMVFHVDaHZ1O","firstName":"raju","pinNumber":"1201","mobileNum":"8956421300","methodName":null,"roles":[{"id":"dcdf7439-265f-4821-8436-96e8f3c3a664","name":"ROLE_CUSTOMER"}],"lastName":"1"},"httpStatus":null}
+{"status":200,"message":"User registered successfully!","response":{"id":"6ca3ca5e-ed1a-471f-858d-d377c6a47d65","username":"7895623456","email":"ramu@gmail.com","password":"$2a$10$v4C9B.IPSt8W6uOlRXJnbOm01Mfx8CKEgQ8Vciofdb/1N2tNvlagu","firstName":"ramu","pinNumber":"1202","mobileNum":"7895623456","methodName":null,"roles":[{"id":"dcdf7439-265f-4821-8436-96e8f3c3a664","name":"ROLE_CUSTOMER"}],"lastName":"1"},"httpStatus":null}

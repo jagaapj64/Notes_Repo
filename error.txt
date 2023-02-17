@@ -1,0 +1,35 @@
+1) Failed to load driver class org.postgresql.Driver in either of HikariConfig class loader or Thread context classloader
+need to add dependency
+
+<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+2)CteInsertStrategy can only be used with Dialects that support CTE that can take UPDATE or DELETE statements as well
+use java 1.8 version and current spring boot version
+
+
+In Controller While using @RequestParam and @PathVariable:-
+`````````````````````````````````````````````````````````
+In the uri
+using @RequestParam on the API:-
+``````````````````````````````
+
+http://localhost:8080/apiPath?firstName=bob&lastName=smith&middleName=joe
+@PostMapping("/save/student/{name}/{city}/{street}") in method call postmapping constructors need to refer field in headers
+http://localhost:8081/api/save/student/jaga/chennai/tnagar?name=guru&city=pune&street=tangal 
+
+or
+
+using @PathVariable on the API:-
+```````````````````````````````
+
+http://localhost:8080/apiPath/firstName/bob/lastName/smith/middleName/joe
+@PostMapping("/save/student") in method call postmapping constructors no need to refer fields in headers
+http://localhost:8081/api/save/student/name/jaga/city/chennai/street/tnagar
+
+
+Logstash stopped processing because of an error: (SystemExit) exit org.jruby.exceptions.SystemExit
+https://stackoverflow.com/questions/67030810/logstash-stopped-processing-because-of-an-error-systemexit-exit-org-jruby-exc

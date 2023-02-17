@@ -1,0 +1,188 @@
+1) https://www.javaguides.net/p/junit-5.html
+
+2) https://www.javaguides.net/p/junxit-4.html
+
+https://www.springboottutorial.com/spring-boot-tutorials-for-beginners
+
+
+ <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.10.19</version>
+            <scope>test</scope>
+        </dependency>
+		
+		
+		
+		
+		
+		 @Mock
+    private PersonRepository personRepository;
+ 
+    @Autowired
+    private PersonService personService;
+ 
+    @BeforeEach void setUp()
+    {
+        personService= new PersonService(personRepository);
+    }
+ 
+    @Test void teseSavePersons()
+    {
+    	Person person=new Person(2,"hari","kanchi");
+    	System.out.println(person.getPersonName());
+    	Person auctual= personService.getById(person.getPersonId());
+//    	Person auctual= personService.findByPersonName(person.getPersonName());
+    	
+        assertThat(auctual.getPersonId()).isEqualTo(person.getPersonId());
+    }
+    
+    @Test void teseAllPersons()
+    {
+        personService.getAllPerson();
+        verify(personRepository).findAll();
+    }
+    
+    @Test void testByPersonId()
+    {
+//        personService.getById(1);
+//        verify(personRepository).findById(2);
+    }
+	
+Unit Testing:-
+````````````
+Here unit testing is part of project which can be task or story once code is completed by developer then that code can be tested
+
+Unit Testing = testing one part of project developed by programmer.
+Ex: RegisterEmployee task, Test RegisterEmployee.
+
+Junit 5:-
+```````
+Junit is Unit test framework.It is opensource Java library.
+
+=> To test our code(class) we need to define one class that is called as Test case(Test class).
+=> To define one test case we should use
+a.Junit 5 Annotations
+b.Junit 5 Assert API
+=> Here, JUnit Runtime provided with 3 components and one platform runtime.
+     1. Junit Jupiter Engine(JUnit 5 API's)
+	 2. JUnit vintage Engine(JUnit 4 and 3 API's)
+	 3. Integration (TesNg and Mock...)
+=> For our test case ( Class+methods ) object creation and test-method calling done by JUnit Platform Runtime.
+
+a.Junit 5 Annotations
+````````````````````
+@Test
+@DisplayName
+@BeforeEach
+@AfterEach
+@BeforeAll
+@AfterAll
+@Disabled
+@TestMethodOrdrer
+@ReapeatedTest
+@Tag
+
+
+@TestMethodOrdrer = We can define multiple test methods inside test case those are executed in Random order by default.or we can specify our own order using 
+                    @TestMethodOrder+OrderAnnonation here we need to provided @Order(number).
+	@Test
+	@Order(5)
+	void testFindByPersonName() {
+		Person person1 = new Person(3, "thiru", "banglore");
+		Person person2 = new Person(4, "mani", "pune");
+		System.out.println("\ntestFindByPersonName :" + personService.findByPersonName(person2.getPersonName()));
+		assertNotEquals(person1.getPersonName(), personService.findByPersonName(person2.getPersonName()).getPersonName());
+	}
+
+@BeforeEach = To Execute any logic once per test method before starting test method.
+@AfterEach  = To Execute any logic once per test method after starting test method.
+@BeforeAll  = To Execute any logic once per test case before starting.
+@AfterAll   = To Execute any logic once per test case after finishing.
+
+@DisplayName = This Annotations is used to proved readable text inplace of actual method and class name is Junit console.
+    @DisplayName("TESTING-PERSON")
+	void testFindByPersonName() {
+		Person person1 = new Person(3, "thiru", "banglore");
+		Person person2 = new Person(4, "mani", "pune");
+		System.out.println("\ntestFindByPersonName :" + personService.findByPersonName(person2.getPersonName()));
+		assertNotEquals(person1.getPersonName(), personService.findByPersonName(person2.getPersonName()).getPersonName());
+	}
+	
+@Disabled = This Annotations is used to specify Ignore one Test-method while executing test-case(do not execute test method)
+    @Disabled
+	void testFindByPersonName() {
+		Person person1 = new Person(3, "thiru", "banglore");
+		Person person2 = new Person(4, "mani", "pune");
+		System.out.println("\ntestFindByPersonName :" + personService.findByPersonName(person2.getPersonName()));
+		assertNotEquals(person1.getPersonName(), personService.findByPersonName(person2.getPersonName()).getPersonName());
+	}
+	
+@ReapeatedTest and TestInfo = To executing any test method multiple time (like batch processing)
+  Ex:-
+      Export 1-10 records 
+      Export 11-20 records 	  
+	To know more Test case details like displayname,classname,methodname,tagname.
+	
+	@Test
+	@Order(1)
+	@RepeatedTest(value=3,name="{displayName}-{currentRepetition}/{totalRepetitions}")
+	@DisplayName("TESTING MULTIPLE")
+	 void testTestInfo(TestInfo info) {
+		System.out.println("TestInfo >>>>>>>>>>>>>>>>>>>>:"+ info.getTestClass().get().getName());
+		System.out.println("TestInfo >>>>>>>>>>>>>>>>>>>>:"+ info.getTestMethod().get().getName());
+		System.out.println("TestInfo >>>>>>>>>>>>>>>>>>>>:"+ info.getDisplayName());
+	}
+@Tags = This Annontations is used to filter  test methods for execution in different environments.
+   for example, i want to test export example in production env at same i want test delete operation only in development environments then using tag concept.
+   and mavan plugin maven-surefire-pluginin pom.xml
+   1. step Right click on Project click on Rus as and Run Configuration
+   2. step Right click on Run as <build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				 <artifactId>maven-surefire-plugin</artifactId>
+				 <version>3.0.0-M3</version>
+				 <configuration>
+					 <groups>prod</groups>
+					 <excludeGroups>dev</excludeGroups>
+				 </configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+
+Assert API:-
+`````````````
+          assert is used to validate Test, is IS CURRENT TEST IS PASS/FAIL? Expected value is compared with actual Result.	
+ => JUnit 5  has provided classe :  Assertions(org.junit.jupiter.api) which contains all static methods "assert methods".
+ => assert methods  are used to compate Expected value with actual Result If Matching TEST is PASS, else TEST is FAIL. 
+ 
+ 
+ 
+ 			<!--<plugin>
+				 <artifactId>maven-surefire-plugin</artifactId>
+				 <configuration>
+					 <groups>prod</groups>
+					 <excludeGroups>dev</excludeGroups>
+				 </configuration>
+			</plugin>-->
+			
+			
+what is what is @ExtendWith(value= {MockitoExtension.class})?	
+````````````````````````````````````````````````````````````
+    @ExtendWith is a repeatable annotation that is used to register extensions for the annotated test class, test interface, test method, parameter, 
+or field. Annotated parameters are supported in test class constructors, in test methods, and in @BeforeAll , @AfterAll , @BeforeEach , and 
+@AfterEach lifecycle methods.	
+
+what is @Spy in mockito?
+```````````````````````
+Mockito Spy
+   A Spy is like a partial mock, which will track the interactions with the object like a mock. Additionally, it allows us to call all the normal methods
+of the object. Whenever we call a method of the spy object, the real method will be invoked(unless it is stubbed).	

@@ -1,0 +1,233 @@
+NFT auction
+
+venkata.karthik@colanonline.com
+Password(Command Line):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
+
+Backend:
+Auth---> https://nftauction-auth.hederacoe.com/
+Auction-----> https://nftauction-auction.hederacoe.com/
+Admin------> https://nftauction-admin.hederacoe.com/
+Gateway----> https://nftauction-apigateway.hederacoe.com/
+Servicemonitor----> https://nftauction-servicemonitor.hederacoe.com/
+
+
+Web old url :-
+https://nftauction-ui.hederacoe.com/auth/login/
+
+Swagger Link:-
+https://nftauction-admin.hederacoe.com/swagger-ui/
+https://nftauction-auction.hederacoe.com/swagger-ui/#/
+https://nftauction-auth.hederacoe.com/swagger-ui/
+
+
+Web new url :-
+https://nftauction-webportal.ggexcel.ai/auth/login/
+
+Swagger Link:-
+https://nftauction-auction.ggexcel.ai/swagger-ui/#
+https://nftauction-auth.ggexcel.ai/swagger-ui/#/
+https://nftauction-admin.ggexcel.ai/swagger-ui/#/
+
+
+nft auction server username and password:
+````````````````````````````````````````
+158.175.101.27 : root : y8NW7zc8DHR3
+ssh root@158.175.101.27
+
+port 
+admin-7492
+auth-7491
+user-7490
+cloud-7438
+service7439
+
+
+
+
+nft auction frontEnd command;
+`````````````````````
+1) package module build
+-----> npm i --f
+2) dev build run
+-----> npm run dev
+
+				
+	{"creatorName":"Raashid","price":"3","royaltyFee":"2","tokenName":"Ilaco","tokenSymbol":"+","numberOfSupply":"3","description":"Test",
+	"saleStatus":false,"currencyTokenId":"0.0.48941759","userId":"48e16296-89ea-41b6-9c6e-b39c8ae27a92","imgName":"milad-fakurian-nY14Fs8pxT8-unsplash.jpg"}
+	
+	
+	@Async("threadPoolTaskExecutor")
+public void sendForgotPasswordMail(String username, String emailId, String otp) throws MessagingException {
+MimeMessage message = emailSender.createMimeMessage();
+MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+StandardCharsets.UTF_8.name());
+
+Context context = new Context();
+Map<String, Object> model = new HashMap<>();
+model.put("otpNum", otp);
+model.put("name",username);
+context.setVariables(model);
+// context.setVariable(username, mailRequest.getUsername());
+// context.setVariable(mailRequest.getOtp());
+String html = templateEngine.process("emailforgotpassword", context);
+helper.setTo(emailId);
+helper.setText(html, true);
+helper.setSubject("GetEnergy-Forgot-Password-Request");
+helper.setFrom("");
+
+emailSender.send(message);
+
+}
+
+<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-mail</artifactId>
+	</dependency>
+	
+						
+					
+NftAuction Image Logo Link:-
+``````````````````````````
+https://s3.jp-tok.cloud-object-storage.appdomain.cloud/big-issue-main-bucket/microbank/ffbb0f88-ecfe-4728-a417-357dcd8aaa31/NFT_Auctin_Logo%20%281%29.png
+https://s3.jp-tok.cloud-object-storage.appdomain.cloud/big-issue-main-bucket/microbank/ffbb0f88-ecfe-4728-a417-357dcd8aaa31/favicon.ico			
+
+
+spam mail error page link
+`````````````````````````
+https://support.mailhostbox.com/email-administrators-guide-error-codes/			 
+						 
+	
+
+
+.toLocalTime()
+LocalTime					
+
+
+<!-- <img src=https://s3.jp-tok.cloud-object-storage.appdomain.cloud/big-issue-main-bucket/microbank/ffbb0f88-ecfe-4728-a417-357dcd8aaa31/favicon.ico alt="NFT_IMAGE" -->
+						<!-- style="padding-bottom: 20px; padding-top: 20px; max-width: 10%; height: auto;" /> -->
+						
+						
+						
+						select * from nft_image_info where nft_id='0.0.49161398';
+						"@{${url}}"
+						
+						
+						
+						{
+						
+before transfer
+						
+  "status": 200,
+  "message": "Fetched Wallet Details Successfully!",
+  "response": {
+    "balance": "2019.00",
+    "walletId": "0.0.48851706",
+    "tokenId": "0.0.48851659",
+    "tokenSymbol": "$",
+    "tokenName": "Doller"
+  },
+  "httpStatus": null
+}
+
+a06e086e-be5a-42b6-a0bb-097b7c2c3609
+
+after transfer 
+
+	
+Response body
+Download
+{
+  "status": 200,
+  "message": "Fetched Wallet Details Successfully!",
+  "response": {
+    "balance": "2012.00",
+    "walletId": "0.0.48851706",
+    "tokenId": "0.0.48851659",
+    "tokenSymbol": "$",
+    "tokenName": "Doller"
+  },
+  "httpStatus": null
+}
+
+
+after admin fees transfer 
+
+	
+Response body
+Download
+{
+  "status": 200,
+  "message": "Fetched Wallet Details Successfully!",
+  "response": {
+    "balance": "2011.00",
+    "walletId": "0.0.48851706",
+    "tokenId": "0.0.48851659",
+    "tokenSymbol": "$",
+    "tokenName": "Doller"
+  },
+  "httpStatus": null
+}
+
+
+before transfer 
+
+
+51f526e8-052f-4061-8ecd-50625c67e437
+{
+  "status": 200,
+  "message": "Fetched Wallet Details Successfully!",
+  "response": {
+    "balance": "2015.00",
+    "walletId": "0.0.48851704",
+    "tokenId": "0.0.48851659",
+    "tokenSymbol": "$",
+    "tokenName": "Doller"
+  },
+  "httpStatus": null
+}
+
+
+after transfer 
+{
+  "status": 200,
+  "message": "Fetched Wallet Details Successfully!",
+  "response": {
+    "balance": "2008.00",
+    "walletId": "0.0.48851704",
+    "tokenId": "0.0.48851659",
+    "tokenSymbol": "$",
+    "tokenName": "Doller"
+  },
+  "httpStatus": null
+}
+
+after author transfer
+{
+  "status": 200,
+  "message": "Fetched Wallet Details Successfully!",
+  "response": {
+    "balance": "2006.00",
+    "walletId": "0.0.48851704",
+    "tokenId": "0.0.48851659",
+    "tokenSymbol": "$",
+    "tokenName": "Doller"
+  },
+  "httpStatus": null
+}
+
+
+	
+Response body
+Download
+{
+  "status": 200,
+  "message": "Fetched Wallet Details Successfully!",
+  "response": {
+    "balance": "2005.00",
+    "walletId": "0.0.48851704",
+    "tokenId": "0.0.48851659",
+    "tokenSymbol": "$",
+    "tokenName": "Doller"
+  },
+  "httpStatus": null
+}

@@ -1,0 +1,1389 @@
+Create File:-
+```````````
+   File will creating in current working directory
+     File file=new File("FirstFile.txt");
+		System.out.println(file.exists());
+
+		try {
+			file.createNewFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(file.exists());
+	}
+Create Directory:-
+````````````````
+	we can use java file object to represent directory also
+	File file2=new File("FielDirectory");
+		System.out.println(file2.exists());
+		file2.mkdir();
+		System.out.println(file2.exists());
+ Note :-
+  `````
+  In Unix everythink is treated as file java file io concept implement based on unix operating 
+sysetem can be used represent both files and directories.
+		
+Create Directory and File :-
+ `````````````````````````
+        File file3=new File("FielDirectory","Demo.txt");
+		File file3=new File(file2,"Demo.txt");
+		file3.createNewFile();
+		System.out.println("Directory and file create : "+file3.exists());		
+		
+ File f=new File(String name); creates a java file object to represent name of file or directory in current working directory
+ File f=new File(String subdirName,String name); creates a java file object to represent name of the file or directory present in specified sub directory
+ File f=new File(File subDir,String name); 
+ File f=new File(E:\\XYZ,String name);
+ Assume that E:xyz folder is already availabe in our system
+ 
+ Important Methods in File Class :-
+ ````````````````````````````````
+ boolean exist() returns true specified file or directory availabe 
+ boolean createFile() first this method will check whether the specifed file already availabe are not if it is already availabe then 
+                    this method returns false without creating any physical if the file is not already availabe then this file create then method returns true 
+ boolean isFile() is return true if the specified file object pointing to physical file
+ boolean isDirectory()
+ String[] list() this method return all file and subdirectory present in specified directory.
+ long length() return number of character in specified file
+ boolean delete() to delete file or directory
+ 
+ ToCount Number of Files:-
+ ````````````````````````
+        iint count=0;
+		File fileList=new File("E:\\junit_workspace\\Java8FeaturesApplication");
+		
+		String[] str=fileList.list();
+		for (String string : str) {
+			File f1=new File(fileList,string);
+			if(f1.isFile()) {
+			count++;
+			System.out.println("To Display Files : "+string);
+			}
+			if(f1.isDirectory()) {
+				count++;
+				System.out.println("To Display Directories : "+string);
+			}
+		}
+		System.out.println("count : "+count);
+
+FileWriter:-
+```````````
+ we can use file writer to write character data to the file.
+ 
+ Constructors:
+ `````````````
+   FileWriter file1=new FileWriter(String name);
+   FileWriter file2=new FileWriter(File f);
+ 
+  the above file writer meant for overriding of existing data instead overriding if you we want to appent operation 
+then we have to create fileWriter by using the following constructors
+
+   FileWriter file3=new FileWriter(String name,boolean append);
+   FileWriter file4=new FileWriter(File f,boolean append);
+   
+   Note :- if the specified file is not already availabe then all the above constructors will create that file.
+   
+   methods:-
+   ````````
+  1. to wrtie single character 
+	    write(int a);	
+  2. to write an array of character
+	    write(char[] ch);
+  3. to write an String to the file
+	    write(String name);
+ 
+ flush();
+ ```````
+  To give the garraanty that the total data including last character will be return to the file.
+ close():
+ ```````
+  To close the writer.
+  
+  In the above program file writer can perform overriding of existing data instead overriding if you want append operation then we 
+  have to create file writer object FileWriter file=new FileWriter("abc.txt",true);
+  
+  Note :-
+ ```````  the main problem with FileWriter we have to insert line sepearator manually (\n) which is varid from system to system it is difficulty to programmer.
+  we can solve this problem BufferedWriter and PrintWriter class.
+  
+package com.java.io.features;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class FileWrite {
+
+	public static void main(String[] args) throws IOException {
+	FileWriter fileWrite=new FileWriter("MyFileWriter.txt"); 
+//	FileWriter fileWrite=new FileWriter("MyFileWriter.txt",true); append file writer
+	fileWrite.write(100);
+	fileWrite.write("urga\nsoftwaresolution");
+	fileWrite.write("\n");
+    char[] ch= {'a','b','c'};
+    fileWrite.write(ch);
+   
+    fileWrite.flush();
+    fileWrite.close();
+    }
+
+}
+
+  
+FileReader:-
+```````````
+            we can use file reader to read character from the file
+			
+ Constructors:-
+ ``````````````
+  FileReader file1=new FileReader(String name);
+  FileReader file2=new FileReader(File f);
+  
+ Methods:-
+ ```````
+ 1. int read(); it attempts to read next character from the file and return it unicode value it the next character is not avilabe then this method return -1
+ as this method return unicode value(int value), at the time printing we have to perform typecasting
+ FileReader file=new FileReader("abc.txt");
+ int i=file.read();
+ 
+ while(i=!-1){
+ System.out.println((char)i);
+ i=file.read();
+ }
+ 
+ 2. int read(char[] ch); it attempts to read enough character from the file into char[] and return number of character copied from the file.
+ 
+ File f=new File("abc.txt");
+ char[] ch=new char[(int)f.length()];
+ FileReader fr=new FileReader(f);
+ fr.read(ch);
+ 
+ for(char chrs:ch){
+ System.out.println(chrs);
+ }
+ 
+ 3. void close() to file reader
+ 
+ package com.java.io.features;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class MyFileReader {
+
+	public static void main(String[] args) throws IOException {
+		    File file=new File("MyFileWriter.txt");
+		 FileReader fileReader=new FileReader(file);
+		    
+		    char[] chars=new char[(int) file.length()];
+		    fileReader.read(chars);
+		    for (char c : chars) {
+				System.out.print(c);
+			}
+		    System.out.println("\n>>>>>>>>>>>>");
+		    FileReader fileReader2=new FileReader(file);
+		   int i= fileReader2.read();
+		   while (i!=-1) {
+			System.out.print((char)i);
+			i=fileReader2.read();
+		}
+		    fileReader.close();
+	}
+
+}
+
+Note :- by using file reader we can read data character to character which is not conveniant to the programmer.
+
+    Usage of FileWriter and FileReader is not recommanded beacause 
+  1. while writing data by file writer we have to insert line sepearator (\n) which is varid form system to sysetm it is difficult to programmer.
+  2. by using file reader we can read data character to character which is not conventiant to programmer by overcome wh shoult go for BufferWriter.
+  
+BufferWriter:-
+````````````
+             we can use buffered writer to write character to the file
+   Constructors:-
+   ````````````
+   BufferedWriter bw=new BufferedWriter(Writer w);
+   BufferedWriter bw2=new BufferedWriter(Writer w,int sizw);
+   
+   Note:-
+      Buffered Write can't connect communicate directly with file it can communicate via some Writer object
+which of following is valid:-
+```````````````````````````
+1.BufferedWriter bw=new BufferedWriter("abc.txt"); xx
+2.BufferedWriter bw=new BufferedWriter(File new("abc.txt"));  xx
+3.BufferedWriter bw=new BufferedWriter(new FileWriter("abc.txt")); yy
+4.BufferedWriter bw=new BufferedWriter(new FileWriter(new FileWriter("abc.txt"))); yy
+
+Methods:-
+```````
+ 1. to wrtie single character 
+	    write(int a);	
+  2. to write an array of character
+	    write(char[] ch);
+  3. to write an String to the file
+	    write(String name);
+  4. To give the garraanty that the total data including last character will be return to the file.
+        flush();
+  5. To close the writer. 
+       close():
+  6  To inserting new line character
+       newLine();
+  
+  when compared with which of the following capaablities availabe extra in method in buffered writer 
+   1.writing data to file
+   2.closing the file.
+   3. flushing the file.
+   4. inserting new line character.
+   
+  whenever we are closing automatically internal files are closed we are not close manually.
+ 
+BufferedReader:-
+```````````````
+  we can use buffered reader to read character from the file the main advantage of buffered reader when compared with file reader
+we can read data line by line in addition to character by character.
+
+ Constructors:-
+ ````````````
+  BufferedReader br=new BufferedReader(Reader dr);
+  BufferedReader br2=new BufferedReader(Reader dr,int bufferdSize);
+  
+  Note :- buffered reader can't communicate directly with file it can communicate via some Reader object.
+  Methods:-
+  ````````
+  1. int read();
+  2. int read(char[] ch);
+  3. close();
+  4. readLine();
+    It attempts to read next line ffrom the file and return it if the next line is not availabe then this method is return null.
+  
+  package com.java.io.features;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class MyBufferedReader {
+// to read character from the file line by line
+	public static void main(String[] args) throws IOException {
+		FileReader fileReader = new FileReader("MyBufferd.txt");
+		BufferedReader bufferedReader = new BufferedReader(fileReader);
+		String line = bufferedReader.readLine();
+		while (line != null) {
+			System.out.println(line);
+			line = bufferedReader.readLine();
+		}
+	}
+
+}
+Note :-
+`````
+    whenever we are closing buffered reader automatically under file will be closed we are not closed expilictly.
+	The Most enhanced reader to read character from the file is BufferedReader
+	
+PrintWriter:-
+```````````
+ It is the most enhanced writer to write character data to the file the main advantage of PrintWriter over FileWriter or BufferedWriter is we can
+ write any type primitive type data.
+ 
+ Constructors;
+ ````````````
+ PrintWriter pw=new PrintWriter(String name);
+ PrintWriter pw2=new PrintWriter(File f);
+ PrintWriter pw3=new PrintWriter(Writer w);
+ 
+ Note:-
+     PrintWriter can communicate directly with file and can communicate via some writer object also.
+ 
+ Methods:-
+ ```````
+  1. to wrtie single character 
+	    write(int a);	
+  2. to write an array of character
+	    write(char[] ch);
+  3. to write an String to the file
+	    write(String name);
+  4. To give the garraanty that the total data including last character will be return to the file.
+        flush();
+  5. To close the writer. 
+       close():
+  
+  print(char c);
+  print(int i);
+  print(double d);
+  print(String s);
+  
+  or 
+  println(char c);
+  println(int i);
+  println(double d);
+  println(String s);
+  
+what is difference b\w write(100) and print(100):-
+````````````````````````````````````````````````
+ The case of write(100) the corresponding character 'd' will be added to file but in the case print(100) will be added directly into file
+ 
+ Note:-
+ `````
+ The most enhanced writer to writer character to the file is PrintWriter whereas the most enhanced reader to read to character data from the file
+	is BufferedReader
+	
+ Note:-
+   In general we can use reader and writers to handle character data(text data) whereas we can use streams to handle binary(image,pdf file,video file etc,.)
+   we can use OutputStreams to write binary data to the file
+   we can use InputStreams to read binary data from the file
+	  
+	  
+	                Object
+					  |
+					  |
+		   -----------------------
+		   |                      |
+		   |                      |
+		  Writer(AC)            Reader(AC)
+		    |                         |
+			|                         |
+  ------------------------       ---------------
+  |         |           |        |             |
+Output    Buffered    Print     Input       BufferedReader
+Stream    Writer      Writer    Stream
+Writer                          Reader
+  |                               |
+FileWriter                      FileReader
+
+Write Program to merge two file into third file?
+```````````````````````````````````````````````
+
+package com.java.io.features;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+public class MergeTwoFilesIntoFile {
+
+	public static void main(String[] args) throws IOException {
+
+     PrintWriter printWriter=new PrintWriter("MergeTwoFile.txt");
+     BufferedReader br=new BufferedReader(new FileReader("MyFileWriter.txt"));
+     String line=br.readLine();
+     
+     while (line!=null) {
+		printWriter.println(line);
+		line=br.readLine();
+	}
+     br=new BufferedReader(new FileReader("MyPrintWriter.txt"));
+     line=br.readLine();
+     while (line!=null) {
+ 		printWriter.println(line);
+ 		line=br.readLine();
+ 	}
+     printWriter.flush();
+     printWriter.close();
+	}
+
+}
+
+Write program file merge operation where merging should be line by line alternativly?
+````````````````````````````````````````````````````````````````````````````````````
+
+package com.java.io.features;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+public class MergeTwoFilesIntoFile {
+
+	public static void main(String[] args) throws IOException {
+
+		
+		 PrintWriter printWriter=new PrintWriter("MergeTwoFile2.txt");
+	     BufferedReader br1=new BufferedReader(new FileReader("MyFileWriter.txt"));
+	     BufferedReader br2=new BufferedReader(new FileReader("MyPrintWriter.txt"));
+	     String line1=br1.readLine();
+	     String line2=br2.readLine();
+	     
+			while (line1 != null || line2 != null) {
+				if(line1 != null) {
+				printWriter.println(line1);
+				line1 = br1.readLine();
+				}
+				if(line2 != null) {
+				printWriter.println(line2);
+				line2 = br2.readLine();
+				}
+			}
+			br1.close();
+			br2.close();
+	     printWriter.flush();
+	     printWriter.close();
+	}
+
+}
+Write program to perform file extraction operation?
+`````````````````````````````````````````````````
+
+111
+222
+333
+444
+555   --- input.txt
+666
+777
+888
+999
+ 
+ 
+555
+888  --- delete.txt
+222
+
+333
+444 
+666  ---output.txt
+777
+999
+
+
+package com.java.io.features;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+public class FileExtraction {
+
+	public static void main(String[] args) throws IOException {
+		PrintWriter printWriter=new PrintWriter(new FileWriter("FileExtrac.txt"));
+		 BufferedReader br1=new BufferedReader(new FileReader("input.txt"));
+	     String line=br1.readLine();
+	     while (line!=null) {
+	    	 boolean availabe=false;
+	    	 BufferedReader br2=new BufferedReader(new FileReader("delete.txt"));
+	    	 String target=br2.readLine();
+	    	 while (target!=null) {
+				if(line.equals(target)) {
+					availabe=true;
+				}
+				target=br2.readLine();
+			}
+	    	 if(availabe==false) {
+	    		 printWriter.println(line);
+	    	 }
+	    	 line=br1.readLine();
+		}
+	     br1.close();
+	     printWriter.close();
+
+	}
+	
+}
+
+Write Java program to remove duplicate from the given input file?
+`````````````````````````````````````````````````````````````````
+
+package com.java.io.features;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+public class RemoveDuplicateFromFile {
+
+	public static void main(String[] args) throws IOException {
+
+		PrintWriter printWriter = new PrintWriter("output.txt");
+		BufferedReader br1 = new BufferedReader(new FileReader("input.txt"));
+		String line = br1.readLine();
+		while (line != null) {
+			boolean availabe = false;
+			BufferedReader br2 = new BufferedReader(new FileReader("output.txt"));
+			String target = br2.readLine();
+			while (target != null) {
+				if (line.equals(target)) {
+					availabe = true;
+					break;
+				}
+				target = br2.readLine();
+			}
+			if (availabe == false) {
+				printWriter.println(line);
+				printWriter.flush();
+			}
+			line = br1.readLine();
+		}
+		br1.close();
+		printWriter.close();
+
+	}
+
+}
+=====================================================================================================================================================================
+  
+  
+  
+Serialization:-
+``````````````
+1.Introduction:-
+````````````
+   Serialization the process writing state of an object to file is call Serialization but strictly speaking it is the process of converting object from
+java support form into either file support form or network form.
+   or 
+   Serialization in Java is a mechanism of writing the state of an object into a byte-stream. It is mainly used in Hibernate, RMI, JPA, 
+EJB and JMS technologies.
+   By using FileOutputStream and ObjectOutputStream we can implement Serialization
+  
+  Deserialization the process reading state of an object from the file is called Deserialization but strictly speaking it is the process converting 
+an object form either file support form or network support form or java support form.
+  or 
+  The reverse operation of serialization is called deserialization where byte-stream is converted into an object.
+  By using FileInputStream and ObjectInputStream we can implement Deserialization
+
+
+package com.java.io.features;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+public class DemoSerialization {
+
+	
+	public static void main(String[] args) throws IOException, ClassNotFoundException {
+		Employee employee=new Employee();
+		FileOutputStream fos=new FileOutputStream("serialize.ser");  // Serialization
+		ObjectOutputStream oos=new ObjectOutputStream(fos);
+		oos.writeObject(employee);
+		
+		FileInputStream fileInputStream=new FileInputStream("serialize.ser"); // Deserialization
+		ObjectInputStream ois=new ObjectInputStream(fileInputStream);
+		Employee emp=(Employee) ois.readObject();
+		oos.close();
+		ois.close();
+		 System.out.print(emp.getAge()+" "+emp.getName());
+
+	}
+
+}
+  we can serialize only serializable objects an object is said to be serializable if and only if the corresponding class implements interface serializable present 
+  in java.io package there is no method in this interface it is marker interface if we are trying to implements a non serializale object then we will get 
+  RunTimeException saying NotSerializableException
+  
+  Transiant Keyword:-
+  `````````````````
+   Transiant modifier applicable only for variable but not for methods and classes.
+   
+   At the time serialization if dont want to save the value of particular variable to need security constraints then we should declare that variable as transient
+   while performing serialization Jvm ignorig original value and saved into default value of variables. hence transient means not to serialize.
+   
+   Transient vs Static:-
+   ````````````````````
+   static variable is not part of object state and hence it won't participate in serializaation due to this declaring static variable as transient there is no use.
+   
+   transient static int age=1; 
+   Transient vs Final:-
+   `````````````````
+      final variable will be participate in serialization directly by the value hence declaring final variable as transient there is no impact.
+	  
+	        int i=10;
+	        int j=20;       ----> 10....20
+	  
+  transient int i=10;
+	        int j=20;       ---->0....20
+			
+  transient static int i=10;
+  transient int j=20;       ---->10....0
+  
+  transient int i=10;
+  transient final int j=20; ---->0....20
+  
+  transient static int i=10;
+  transient final int j=20; ---->0....0
+  
+  Note:-
+  `````
+   we can serialize any number objects to the file but in which order we serialize in the same order only we can deserialize that is order of object is 
+ important in serialization.
+    Dog d=new Dog();
+	Cat c=new Cat();
+	Rat r=new Rat();
+	
+	FOS fos=new FOS("abc.ser");
+	OOS oos=new OOS(fos);
+	oos.writeObject(d);
+	oos.writeObject(c);
+	oos.writeObject(r);
+	
+	FIS fis=new FIS("abc.ser");
+	OIS ois=new OIS(fis);
+	Dog dog=(Dog)ois.readObject();
+	Cat cat=(Cat)ois.readObject();
+	Rat rat=(Rat)ois.readObject();
+	
+If You dont know order of object in serialization:-
+`````````````````````````````````````````````````
+    FIS fis=new FIS("abc.ser");
+	OIS ois=new OIS(fis);
+	Object o=ois.readObject();
+	if(o instanceOf Dof){
+	Dog dog=(Dog)ois.readObject();
+	}
+	if(o instanceOf Cat){
+	Cat cat=(Cat)ois.readObject();
+	}
+	if(o instanceOf Rat){
+	Rat rat=(Rat)ois.readObject();
+	}
+
+2.Object Graphs in Serialization:-
+````````````````````````````````
+1.whenever we are serialziing an object the set of all object which are reachable from that object will be serializable automatically this group 
+   object is nothing but object graphe
+2.In object graphe every object should be serializable if atleast one object is not serializable then that we will get runtime exception saying 
+   NotSerializableException
+   
+ package com.java.io.features;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+public class DemoSerialization1 {
+
+	public static void main(String[] args) throws IOException, ClassNotFoundException {
+		Employee1 employee1=new Employee1();
+		FileOutputStream fos=new FileOutputStream("serialize1.ser");  // Serialization
+		ObjectOutputStream oos=new ObjectOutputStream(fos);
+		oos.writeObject(employee1);
+
+
+		FileInputStream fileInputStream=new FileInputStream("serialize1.ser"); // Deserialization
+		ObjectInputStream ois=new ObjectInputStream(fileInputStream);
+		Employee1 emp=(Employee1) ois.readObject();
+		oos.close();
+		ois.close(); 
+		 System.out.print(emp.getDepartment().getEmployeeBranch().getBranch());
+	}
+
+}
+ In the above program whenever we are serializing dog object automatically cat and rat object are serialized this are part of object graphe of Dog
+ among dog and cat and rat object if atleast one object is not serializble then that RunTimeException saying NotSeriableException
+ 
+3.Customizied Serialization:-
+````````````````````````````
+  During default serialization there may be loss information because of transient keyword
+
+Example 1:-
+````````
+process 1:-
+ ```````` 
+package com.java.io.features;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
+public class Accounts implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8166134750110316943L;
+	private String userName="guru@gmail.com";
+	transient String password="Guru";
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+
+}
+
+process 2:-
+ ```` 
+package com.java.io.features;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
+public class Accounts implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8166134750110316943L;
+	private String userName="guru@gmail.com";
+	transient String password="Guru";
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	//Programmer can't call private methods directly from out of the class but jvm can call private methods from out of class
+	private void writeObject(ObjectOutputStream oos) throws IOException {
+		oos.defaultWriteObject();
+		oos.writeObject("123"+password);
+	}
+	//Programmer can't call private methods directly from out of the class but jvm can call private methods from out of class
+	private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
+		ois.defaultReadObject();
+		String encryptPwd=(String) ois.readObject();
+		password=encryptPwd.substring(3);
+	}
+}
+
+package com.java.io.features;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+public class CustomizedSerialization {
+
+	public static void main(String[] args) throws IOException, ClassNotFoundException {
+		// During default serialization there may be loss information because of transient keyword
+		Accounts accounts = new Accounts();
+		System.out.println("Before Serialization : "+accounts.getUserName()+" "+accounts.getPassword());
+		FileOutputStream fosAccounts = new FileOutputStream("serialize2.ser"); // Serialization
+		ObjectOutputStream oosAccounts = new ObjectOutputStream(fosAccounts);
+		oosAccounts.writeObject(accounts);
+
+		FileInputStream fisAccounts = new FileInputStream("serialize2.ser"); // Deserialization
+		ObjectInputStream oisAccounts = new ObjectInputStream(fisAccounts);
+		Accounts accountsData = (Accounts) oisAccounts.readObject();
+		System.out.println("After Serialization : "+accountsData.getUserName()+" "+accountsData.getPassword());
+		oosAccounts.close();
+		oisAccounts.close();
+		// output guru@gmail.com null}
+
+}
+}
+
+  1. In the above example before serialization account object can provide proper username and password and after that deserialization account 
+object can provide only username but not password this due to declaring password variable as transient
+  2. Hence default serialization there may be chance loss of information because of transient keyword to recover this loss information we should go for this 
+customizied serialization.
+
+  We can implement customized serializable
+   1. private void writeObject(ObjectOutputStream oos)throws Exception this method will be executed automatically at the time of serializable hence
+at the time serialization if we want to perform any operation any activity we have to define that in this method only.
+   
+   2. private void readObject(ObjectInputStream ois)throws Exception this method will be executed automatically at the time of deserialization hence 
+at the time deserilazation if we want to perform any activity we have to define that in this method only.
+
+Note:-
+````` 1. the above methods are callback methods because it is are executed automatically by JVM.
+      2. While performing which object serialization we have to do extra work in the corresponding class we have to define the above method
+for example while performing account object serialization we required to do extra work we have to define the above methods.
+
+  In the asbove program before serilaization and after serialization account object propert username and password.
+  Note:-
+  ````
+   Programmer can't call private methods directly from out of the class but jvm can call private methods from out of class
+
+
+Example 2:-
+````````
+
+package com.java.io.features;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
+public class Accounts1 implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3499539004068112932L;
+	private String userName="guru@gmail.com";
+	transient String password="Guru";
+	public int getPin() {
+		return pin;
+	}
+	public void setPin(int pin) {
+		this.pin = pin;
+	}
+
+	transient int pin=1234;
+	
+	
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+//	Programmer can't call private methods directly from out of the class but jvm can call private methods from out of class
+	private void writeObject(ObjectOutputStream oos) throws IOException {
+		oos.defaultWriteObject();
+		oos.writeObject("123"+password);
+		oos.writeInt(4444+pin);
+	}
+	
+	private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
+		ois.defaultReadObject();
+		String encryptPwd=(String) ois.readObject();
+		password=encryptPwd.substring(3);
+		int encryptPin=ois.readInt();
+		pin=encryptPin-4444;
+	}
+}
+
+package com.java.io.features;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+public class CustomizedSerialization1 {
+
+	public static void main(String[] args) throws IOException, ClassNotFoundException {
+		// During default serialization there may be loss information because of transient keyword
+		Accounts1 accounts1 = new Accounts1();
+		System.out.println("Before Serialization : "+accounts1.getUserName()+" "+accounts1.getPassword());
+		FileOutputStream fosAccounts = new FileOutputStream("serialize2.ser"); // Serialization
+		ObjectOutputStream oosAccounts = new ObjectOutputStream(fosAccounts);
+		oosAccounts.writeObject(accounts1);
+
+		FileInputStream fisAccounts = new FileInputStream("serialize2.ser"); // Deserialization
+		ObjectInputStream oisAccounts = new ObjectInputStream(fisAccounts);
+		Accounts1 accountsData1 = (Accounts1) oisAccounts.readObject();
+		System.out.println("After Serialization : "+accountsData1.getUserName()+" "+accountsData1.getPassword()+" "+accountsData1.getPin());
+		oosAccounts.close();
+		oisAccounts.close();
+		// output guru@gmail.com null}
+
+}
+
+}
+
+4. Serialization With Inheritance:-
+`````````````````````````````````
+   Case 1:-
+   ``````
+      Even though doe'nt implement serializable we can serializable child class object if parent class implements serializable interface that is 
+serilaizable nature is inheriting from parent to child hence if parent is serializable then by default every child is serializable
+
+package com.java.io.features;
+
+import java.io.Serializable;
+
+public class Animal implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1552960794607075679L;
+	
+	 int i=10;
+
+	public int getI() {
+		return i;
+	}
+
+	public void setI(int i) {
+		this.i = i;
+	}
+
+}
+
+
+package com.java.io.features;
+public class Lion extends Animal{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6037126907566154366L;
+   public int getJ() {
+		return j;
+	}
+	public void setJ(int j) {
+		this.j = j;
+	}
+ int j=20;
+}
+
+package com.java.io.features;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+public class SerializationWithInheritance {
+
+	public static void main(String[] args) throws IOException, ClassNotFoundException {
+		// During default serialization there may be loss information because of transient keyword
+		Lion lion1 = new Lion();
+		System.out.println("Before Serialization : "+lion1.getI()+" "+lion1.getJ());
+		FileOutputStream foslion1 = new FileOutputStream("serialize3.ser"); // Serialization
+		ObjectOutputStream ooslion1 = new ObjectOutputStream(foslion1);
+		ooslion1.writeObject(lion1);
+
+		FileInputStream fislion2 = new FileInputStream("serialize3.ser"); // Deserialization
+		ObjectInputStream oislion2 = new ObjectInputStream(fislion2);
+		Lion lion2 = (Lion) oislion2.readObject();
+		System.out.println("After Serialization : "+lion2.getI()+" "+lion2.getJ());
+		ooslion1.close();
+		oislion2.close();
+		// output guru@gmail.com null}
+
+}
+
+}
+
+Note:-
+````
+ 1. In the above example even thougth Lion class does'nt implements serializable we can serializable Lion object because it is parent class 
+    implements serializable Animal
+ 2. Object class does'nt implement serializable interface
+ 
+ Case 2:-
+ ``````
+ 1. Even thougth parent class does'nt implements serializable we can serializable child class object if child class implements serializable interface this is 
+    to serilaizable child class object parent class need not to be serializable.
+ 2. At the time serialization JVM will check is any variable inheriting from non serializable parent or not if any variable inheriting non serializable parent
+    then JVM ignore original value and saved default value to file.
+ 3. At the time serialization JVM will check is any parent class is non serializable are not if any parent class non serializable then in every non serializable parent
+    JVM will execute instance control flow and share it is instance variable to current object.
+ 4. While executing instance control flow of non serializable parent JVM will always call no-argument constructor hence every non serialable class should 
+    compulsury contain no-argument constructors it may be default constructors generate by compiler or customized constructors provide by programmer.otherwise 
+	we will get RunTimeExcption saying InvalidClassException.
+
+package com.java.io.features;
+import java.io.Serializable;
+
+public class Lion1 extends Animal1 implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4300323531877982879L;
+	int j = 200;
+
+	public int getJ() {
+		return j;
+	}
+
+	public void setJ(int j) {
+		this.j = j;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public Lion1() {
+		System.out.println("Lion class Constructors");
+	}
+}
+
+package com.java.io.features;
+
+public class Animal1 {
+
+	public int getI() {
+		return i;
+	}
+
+	public void setI(int i) {
+		this.i = i;
+	}
+
+	int i=100;
+	
+		/*
+	 * Exception in thread "main" java.io.InvalidClassException:
+	 * com.java.io.features.Lion1; no valid constructor at
+	 * java.base/java.io.ObjectStreamClass$ExceptionInfo.newInvalidClassException(
+	 * ObjectStreamClass.java:172) at
+	 * java.base/java.io.ObjectStreamClass.checkDeserialize(ObjectStreamClass.java:
+	 * 790) at
+	 * java.base/java.io.ObjectInputStream.readOrdinaryObject(ObjectInputStream.java
+	 * :2225) at
+	 * java.base/java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1733)
+	 * at java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:509)
+	 * at java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:467)
+	 * at com.java.io.features.SerializationWithInheritance.main(
+	 * SerializationWithInheritance.java:39)
+	 */
+	// we declaring parameter-argument JVM will throw above excpetion
+//	public Animal1(int i) {
+//		System.out.println("Animal class Constructors");
+//	}
+	
+	public Animal1() {
+		System.out.println("Animal class Constructors");
+	}
+}
+
+
+package com.java.io.features;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+public class SerializationWithInheritance {
+
+	public static void main(String[] args) throws IOException, ClassNotFoundException {
+
+       // Case2
+		Lion1 lion3 = new Lion1();
+		System.out.println("Before Serialization : "+lion3.getI()+" "+lion3.getJ());
+		FileOutputStream foslion2 = new FileOutputStream("serialize3.ser"); // Serialization
+		ObjectOutputStream ooslion2 = new ObjectOutputStream(foslion2);
+		ooslion2.writeObject(lion3);
+
+		FileInputStream fislion2 = new FileInputStream("serialize3.ser"); // Deserialization
+		ObjectInputStream oislion2 = new ObjectInputStream(fislion2);
+		Lion1 lion4 = (Lion1) oislion2.readObject();
+		System.out.println("After Serialization : "+lion4.getI()+" "+lion4.getJ());
+		ooslion2.close();
+		oislion2.close();
+		
+		//output 
+//		Animal class Constructors
+//		Lion class Constructors
+//		Before Serialization : 100 200
+//		Animal class Constructors
+//		After Serialization : 100 200
+}
+
+}
+
+5.Externalization:-
+``````````````````
+  1. In Serialization everthink is take care by JVM and programmer does'nt have any control.
+  2. In Serialization is always possible to save total object to file and it is not possible to save part of object, which make create performance problem
+  3. To Overcome this problem we should go for Externatilzation.
+  4. The main advantage of Externailzation is over serialization is everythink is take care by programmer and JVM does'nt have any control based on our
+     requirement we can save either total object or part of the object,which imporoves performance.  
+  5. To provide externaliable ability for any object compulsory the corresponding class should be implements externalizable interface
+     Externalizable Interfave have two methods;
+	 1. readExternal()
+	 2  writeExternal()
+	 
+  Externalizable is the child interface of Serializable
+   
+   Serializable(I)
+        |
+		|
+	   \|/
+   Externalizable(I)	
+
+   1. public void writeExternal(OOS o)throws IOException this method will executed automatically at the time serialization
+   2. With in this method we have to write code to save requried variable to the files.   
+   3. public void readExternal(OIS)throws IOException this method will executed automatically at athe time deserialization
+   4. With in this method we have to write code to read required variable from the file and assign to parent object.but strictly speaking at the time
+   5. deserialization JVM will create a sepeatate new object by executing public no-argument constructor on the object JVM will call readExternal(OIS s)	
+   6. Hence every externailable implemented class should compulsory contain public no-argument constructor otherwise we will get InvalidClassException   
+
+Example:-
+``````` 
+package com.java.io.features;
+import java.io.Externalizable;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+
+public class ExternalizableDemo implements Externalizable {
+
+	String s;
+	int i;
+	int j;
+    /*
+	 * Note:- In serailaization transient will play role but in Externalization
+	 * transient keyword won't play any role because there is no use of transient
+	 * keyword because programmer only saving the data choosing.
+	 * 
+	 * transient String s; transient int i; transient int j;
+	 */
+	public String getS() {
+		return s;
+	}
+
+	public void setS(String s) {
+		this.s = s;
+	}
+
+	public int getI() {
+		return i;
+	}
+
+	public void setI(int i) {
+		this.i = i;
+	}
+
+	public int getJ() {
+		return j;
+	}
+
+	public void setJ(int j) {
+		this.j = j;
+	}
+
+
+	public ExternalizableDemo() {
+		System.out.println("ExternalizableDemo Class Constructors ");
+	}
+
+	public ExternalizableDemo(String s, int i, int j) {
+		this.s = s;
+		this.i = i;
+		this.j = j;
+	}
+
+	public void writeExternal(ObjectOutput out) throws IOException {
+		out.writeObject(s);
+		out.writeInt(i);
+	}
+
+	public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+		s = (String) in.readObject();
+		i = in.readInt();
+
+	}
+
+	public static void main(String[] args) throws IOException, ClassNotFoundException {
+
+		// During default serialization there may be loss information because of
+		// transient keyword
+		ExternalizableDemo external = new ExternalizableDemo("Jaga", 10, 100);
+		System.out.println("Before Serialization : " + external.getS() + " " + external.getI() + " " + external.getJ());
+		FileOutputStream fosAccounts = new FileOutputStream("serialize4.ser"); // Serialization
+		ObjectOutputStream oosAccounts = new ObjectOutputStream(fosAccounts);
+		oosAccounts.writeObject(external);
+
+		FileInputStream fisAccounts = new FileInputStream("serialize4.ser"); // Deserialization
+		ObjectInputStream oisAccounts = new ObjectInputStream(fisAccounts);
+		ExternalizableDemo external2 = (ExternalizableDemo) oisAccounts.readObject();
+		System.out
+				.println("After Serialization : " + external2.getS() + " " + external2.getI() + " " + external2.getJ());
+		oosAccounts.close();
+		oisAccounts.close();
+		// output guru@gmail.com null}
+
+	}
+
+}
+  1. If the class implements serializable then total object will be saved to file in this case output is Jaga..10..20
+  2. If the class implements Externalizable then only required variable will be saved to file in this case output is Jaga..10..0
+  
+  Note:-
+       In serailaization transient will play role but in Externalization transient keyword won't play any role because there is no use of transient keyword
+	   because programmer only saving the data choosing.
+
+
+difference b\w Serialization and Externalization:-
+````````````````````````````````````````````````
+  It is mean for default serailization
+  It is meant for customized serilization
+  
+  Here everthink take care by JVM and programmer does'nt have any control
+  Here everythink programmer and JVM does'nt have any control
+  
+  In this case always possible to save total object to file and it is not possible to part of object.
+  Based on our required we can save either total object or part of object.
+
+  Relatively performance low.
+  Relatively performatnce high
+  
+  It is best chioce total object to the file.
+  It is best chioce we want to part of object to file.
+  
+  Serializable interface does'nt contain any method and it is marker interface.
+  Externalizable interface contains two method writeExternal() and readExternal() and hence it is not marker interface.
+  
+  Serializable implemented class not required to contain public no-arg constructor.
+  Externalizabel implemented class should compulsory contains public no-arg constructor otherwise RuntimeException is saying InvalidClassException
+
+  transient keyword will play role in serialization.
+  transient keyword won't play any role in externalization off course it no need.  
+
+6.SerialVersionUID:-
+``````````````````
+  1. In serialization both sender and recevier need not be same person and need not to be same machine and need not be from same location.the person may be
+different,the machine may be different,the location may be different.
+  2. In serialization both sender and receiver should as .class at the begining only just state of object is travelling from sender to receiver.
+  3. At the time of serialization with every object sender side JVM will save a unique idenetifer JVM is responsible for to generate this unique idenetifier
+based on .class file
+  4. At the time of deserilaization recevied side JVM will compare unique idenetifier associate with object with local class unique idenetifier if both are
+matched then only deserialization will performed otherwise RunTimeException saying InvalidClassException.
+  5. This unique identifier is nothing but SerialVersionUID.
+  
+Problem of depending on default SerialVersionUID generate by JVM:-
+````````````````````````````````````````````````````````````````
+  1. both sender and recevier should use same JVM with respect to vendor ,version,platform otherwise unable to deserialize because different SerialVersionUID
+  2. both sender and receiver should use same .class file version after serialization if there is any change in .class at recevier side then unable to 
+     deserialize.
+  3. To generate serailaVersionUID internally JVM may use complex alogrithm which may create performance problem.
+  4. we can solve the above problem by configuring by using our own serailVersionUID.
+  5. We can configure as follows
+    private static final long serailVersionUID=1L;
+
+package com.java.io.features;
+import java.io.Serializable;
+
+public class Person implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public int getAge() {
+		return age;
+	}
+	public void setAge(int age) {
+		this.age = age;
+	}
+	String name="Guru";
+	int age=25;
+	public int getSalary() {
+		return salary;
+	}
+	public void setSalary(int salary) {
+		this.salary = salary;
+	}
+	int salary=3000;
+	int i=100;
+	int j=100;
+}
+	
+package com.java.io.features;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
+public class SerialVersionUIDSender {
+
+    /*
+	 * Exception in thread "main" java.io.InvalidClassException:
+	 * com.java.io.features.Person; local class incompatible: stream classdesc
+	 * serialVersionUID = -8178697621553017670, local class serialVersionUID =
+	 * -8254441525026925213 at
+	 * java.base/java.io.ObjectStreamClass.initNonProxy(ObjectStreamClass.java:597)
+	 * at
+	 * java.base/java.io.ObjectInputStream.readNonProxyDesc(ObjectInputStream.java:
+	 * 2051) at
+	 * java.base/java.io.ObjectInputStream.readClassDesc(ObjectInputStream.java:
+	 * 1898) at
+	 * java.base/java.io.ObjectInputStream.readOrdinaryObject(ObjectInputStream.java
+	 * :2224) at
+	 * java.base/java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1733)
+	 * at java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:509)
+	 * at java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:467)
+	 * at
+	 * com.java.io.features.SerialVersionUIDRecevier.main(SerialVersionUIDRecevier.
+	 * java:12)
+	 */
+	public static void main(String[] args) throws IOException {
+	Person person = new Person();
+	FileOutputStream fos = new FileOutputStream("serialize5.ser"); // Serialization
+	ObjectOutputStream oos = new ObjectOutputStream(fos);
+	oos.writeObject(person);
+	System.out.println("Serialization is done");
+	oos.close();
+}
+
+}
+
+
+package com.java.io.features;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
+public class SerialVersionUIDRecevier {
+
+	/*
+	 * Exception in thread "main" java.io.InvalidClassException:
+	 * com.java.io.features.Person; local class incompatible: stream classdesc
+	 * serialVersionUID = -8178697621553017670, local class serialVersionUID =
+	 * -8254441525026925213 at
+	 * java.base/java.io.ObjectStreamClass.initNonProxy(ObjectStreamClass.java:597)
+	 * at
+	 * java.base/java.io.ObjectInputStream.readNonProxyDesc(ObjectInputStream.java:
+	 * 2051) at
+	 * java.base/java.io.ObjectInputStream.readClassDesc(ObjectInputStream.java:
+	 * 1898) at
+	 * java.base/java.io.ObjectInputStream.readOrdinaryObject(ObjectInputStream.java
+	 * :2224) at
+	 * java.base/java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1733)
+	 * at java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:509)
+	 * at java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:467)
+	 * at
+	 * com.java.io.features.SerialVersionUIDRecevier.main(SerialVersionUIDRecevier.
+	 * java:12)
+	 */
+	public static void main(String[] args) throws ClassNotFoundException, IOException {
+		FileInputStream fileInputStream = new FileInputStream("serialize5.ser"); // Deserialization
+		ObjectInputStream ois = new ObjectInputStream(fileInputStream);
+		Person emp = (Person) ois.readObject();
+		System.out.println(emp.getName()+" "+emp.getAge());
+		System.out.println("Deserialization is done");
+		ois.close();
+		}
+
+}
+
+  In the above program after serailization if perform any changes to the .class file at recevier side we won'nt get any problem at the time deserailization.
+  In this case sender and recevier not required to maintain same JVM version.
+  Note:-
+  ````
+  Some Id is prompt programmer to enter serialVersionUID explicitly.
+  Some Id is may generate serialVersionUID automatically. 
+
+  

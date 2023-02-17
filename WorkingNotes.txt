@@ -1,0 +1,287 @@
+1. Why we used to @SuppressWarnings ?
+
+        Use of @SuppressWarnings is to suppress or ignore warnings coming from the compiler, i.e., the 
+compiler will ignore warnings if any for that piece of code.
+
+2. Why we used to Integer.parseInt() ?
+
+   While operating upon strings, there are times when we need to convert a number represented as a 
+string into an integer type. The method generally used to convert String to Integer in Java is 
+parseInt().his method belongs to Integer class in java.lang package. It takes a valid string as a 
+parameter and parses it into primitive data type int. It only accepts String as a parameter and on 
+passing values of any other data type, it produces an error due to incompatible types.
+
+Syntax:
+public static int parseInt(String s) throws NumberFormatException
+public static int parseInt(String s, int radix) throws NumberFormatException
+
+3.Why we use to Integer.valueOf() ?
+
+  This method is a static method belonging to the java.lang package which returns the relevant Integer
+Object holding the value of the argument passed. This method can take an integer or a String as a 
+parameter. But when the given String is invalid, it provides an error. This method can also take in a 
+character as a parameter but the output will be its corresponding Unicode value. This method will 
+always cache values in the range -128 to 127, inclusive, and may cache other values outside of this
+range.
+
+Syntax:
+
+public static Integer valueOf(int a)
+public static Integer valueOf(String str)
+public static Integer valueOf(String str, int base)
+
+Differences between Integer.parseInt() and Integer.valueOf()
+
+Integer.valueOf() returns an Integer object while Integer.parseInt() returns a primitive int.
+
+                                         Table of difference
+
+         Integer.parseInt()	                                            Integer.valueOf()
+
+It can only take a String as a parameter.	          It can take a String as well as an integer as parameter.
+
+It returns a primitive int value.	                  It returns an Integer object.
+
+When an integer is passed as parameter,                   When an integer is passed as parameter, it returns an Integer object 
+it produces an error due to incompatible types       	  corresponding to the given parameter.
+
+This method produces an error(incompatible types)         This method can take a character as parameter and will return the 
+when a character is passed as parameter.                  corresponding unicode.
+
+	
+This lags behind in terms of performance since             This method is likely to yield significantly better space and time to 
+parsing a string takes a lot of time when compared            
+to generating one.	
+
+If we need the primitive int datatype then Integer	   If Wrapper Integer object is needed then valueOf() method is to be used.
+.parseInt() method is to be used.
+
+
+4.Why we use to String valueOf() ?
+
+   The java string valueOf() method converts different types of values into string. By the help of string valueOf() method, 
+you can convert int to string, long to string, boolean to string, character to string, float to string, double to string, 
+object to string and char array to string.
+
+Syntax :
+
+public static String valueOf(Object obj) {  
+       return (obj == null) ? "null" : obj.toString();  
+   }  
+
+2. What is Lazy Fetching ?
+      We use lazy fetching when we want to postpone the data initialization until we need it. Let's look at an example to better 
+understand the idea. Suppose we have a company that has multiple branches in the city. Every branch has its own employees. From 
+the database perspective, it means we have a one-to-many relation between the branch and its employees.
+
+     In the lazy fetching approach, we won't fetch the employees once we fetch the branch object. We only fetch the data of the 
+branch object, and we postpone loading the list of employees until we call the getEmployees() method. At that point, another 
+database query will be executed to get the employees.
+
+    The benefit of this approach is that we reduce the amount of data loaded initially. The reason is that we might not need the 
+employees of the branch, and there's no point in loading them since we aren't planning to use them right away
+
+3. What is Eager Fetching ?
+    We use eager fetching when the data needs to be loaded instantly. Let's take the same example of the company, branches, and the 
+employees to explain this idea as well. Once we load some branch object from the database, we'll immediately load the list of its 
+employees as well using the same database query.
+
+4.What is @LazyCollection Annotation ?
+    We use the @LazyCollection annotation when we need to take care of the performance in our application. Starting from Hibernate 3.0, 
+@LazyCollection is enabled by default. The main idea of using the @LazyCollection is to control whether the fetching of data should
+be using the lazy approach or the eager one. When using @LazyCollection, we have three configuration options for the LazyCollection
+Option setting: TRUE, FALSE, and EXTRA. Let's discuss each of them independently.
+
+  4.1.Using LazyCollectionOption.TRUE :-
+
+   This option enables the lazy fetching approach for the specified field and is the default starting from Hibernate version 3.0. 
+Therefore, we don't need to explicitly set this option. However, to explain the idea in a better way, we'll take an example where 
+we set this option. In this example, we have a Branch entity that consists of an id, name, and a @OneToMany relation to the Employee 
+entity. We can notice that we set the @LazyCollection option explicitly to true in this example:
+
+@Entity
+public class Branch {
+
+    @Id
+    private Long id;
+
+    private String name;
+
+    @OneToMany(mappedBy = "branch")
+    @LazyCollection(LazyCollectionOption.TRUE)
+    private List<Employee> employees;
+    
+    // getters and setters
+}
+  Now, let's take a look at the Employee entity that consists of an id, name, address, as well as a @ManyToOne relation with the 
+Branch entity:
+
+@Entity
+public class Employee {
+
+    @Id
+    private Long id;
+
+    private String name;
+
+    private String address;
+    
+    @ManyToOne
+    @JoinColumn(name = "BRANCH_ID") 
+    private Branch branch; 
+
+    // getters and setters 
+}
+
+  In the above example, when we get a branch object, we won't load the list of employees immediately. Instead, this operation 
+will be postponed until we call the getEmployees() method.
+
+    4.2. Using LazyCollectionOption.FALSE :-
+
+   When we set this option to FALSE, we enable the eager fetching approach. In this case, we need to explicitly specify this option 
+because we'll be overriding Hibernate's default value. Let's look at another example. In this case, we have the Branch entity, which 
+contains id, name, and a @OneToMany relation with the Employee entity. Note that we set the option of @LazyCollection to FALSE:
+
+@Entity
+public class Branch {
+
+    @Id
+    private Long id;
+
+    private String name;
+
+    @OneToMany(mappedBy = "branch")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<Employee> employees;
+    
+    // getters and setters
+}
+    In the above example, when we get a branch object, we'll load the branch with the list of employees instantly(we will get 
+employee details immediately).
+
+   4.3. Using LazyCollectionOption.EXTRA :-
+
+       Sometimes, we're only concerned with the properties of the collection, and we don't need the objects inside it right away.For 
+example, going back to the Branch and the Employees example, we could just need the number of employees in the branch while not 
+caring about the actual employees' entities. In this case, we consider using the EXTRA option. Let's update our example to handle 
+this case.Similar to the case before, the Branch entity has an id, name, and an @OneToMany relation with the Employee entity. 
+However, we set the option for @LazyCollection to be EXTRA:
+
+@Entity
+public class Branch {
+
+    @Id
+    private Long id;
+
+    private String name;
+
+    @OneToMany(mappedBy = "branch")
+    @LazyCollection(LazyCollectionOption.EXTRA)
+    @OrderColumn(name = "order_id")
+    private List<Employee> employees;
+
+    // getters and setters
+    
+    public Branch addEmployee(Employee employee) {
+        employees.add(employee);
+        employee.setBranch(this);
+        return this;
+    }
+}
+
+   We notice that we used the @OrderColumn annotation in this case. The reason is that the EXTRA option is taken into consideration 
+only for indexed list collections. That's means if we didn't annotate the field with @OrderColumn, the EXTRA option will give us the 
+same behavior as lazy and the collection will be fetched when accessed for the first time.
+
+  In addition, we define the addEmployee() method as well, because we need the Branch and the Employee to be synchronized from both 
+sides. If we add a new Employee and set a branch for him, we need the list of employees inside the Branch entity to be updated as 
+well. Now, when persisting one Branch entity that has three associated employees, we'll need to write the code as:
+
+entityManager.persist(
+  new Branch().setId(1L).setName("Branch-1")
+
+    .addEmployee(
+      new Employee()
+        .setId(1L)
+        .setName("Employee-1")
+        .setAddress("Employee-1 address"))
+  
+    .addEmployee(
+      new Employee()
+        .setId(2L)
+        .setName("Employee-2")
+        .setAddress("Employee-2 address"))
+  
+    .addEmployee(
+      new Employee()
+        .setId(3L)
+        .setName("Employee-3")
+        .setAddress("Employee-3 address"))
+);
+   If we take a look at the executed queries, we'll notice that Hibernate will insert a new Branch for Branch-1 first. Then it will 
+insert Employee-1, Employee-2, then Employee-3.We can see that this is a natural behavior. However, the bad behavior in the EXTRA 
+option is that after flushing the above queries, it'll execute three additional ones – one for every Employee we add:
+
+5. What is difference between rollback and COMMIT ?
+
+     A COMMIT statement is used to save the changes on the current transaction is permanent. A Rollback statement is used to 
+undo all the changes made on the current transaction. ... If all the statements are executed successfully without any error, 
+the COMMIT statement will permanently save the state.
+
+    COMMIT permanently saves the changes made by current transaction. ROLLBACK undo the changes made by current transaction. 
+Transaction can not undo changes after COMMIT execution.
+
+6. What is the difference between jpql and hql
+    HQL is an object-oriented query language, similar to SQL, but instead of operating on tables and columns, HQL works with persistent 
+objects and their properties. This is main difference between hql vs sql.
+
+    HQL is a superset of the JPQL, the Java Persistence Query Language. A JPQL query is a valid HQL query, but not all HQL queries 
+are valid JPQL queries.
+
+    HQL is a language with its own syntax and grammar. It is written as strings, like “from Product p“.
+HQL queries are translated by Hibernate into conventional SQL queries. Note that Hibernate also provides the APIs that allow us 
+to directly issue SQL queries as well.
+
+    Note :-
+            Please note that Hibernator’s query facilities do not allow us to alter the database structure. 
+            We can only add/update/delete the data inside tables.
+    We know that Hibernate works with plain Java objects (POJO). In raw form (without hibernate specific annotations), hibernate 
+will not be able to identify these java classes. But when these POJOs are properly annotated with required annotations then 
+hibernate will be able to identify them and then work with them e.g. store in the database, update them, etc. These POJOs are 
+said to mapped with hibernate.
+
+7. Brief introduction to JWT:-
+
+    A JWT technically is a mechanism to verify the owner of some JSON data.
+    It’s an encoded string, which is URL safe, that can contain an unlimited amount of data 
+(unlike a cookie), and it’s cryptographically signed.
+   When a server receives a JWT, it can guarantee the data it contains can be trusted because it’s
+signed by the source. No middleman can modify a JWT once it’s sent.
+   It’s important to note that a JWT guarantees data ownership but not encryption; the JSON data 
+you store into a JWT can be seen by anyone that intercepts the token, as it’s just serialized, not 
+encrypted.For this reason, it’s highly recommended to use HTTPS with JWTs (and HTTPS in general, 
+by the way).
+
+ Authentication vs Authorization :-
+````````````````````````````````
+    Prior to introducing what OAuth2 is first, let me give you a brief idea on the concepts of 
+authentication and authorization.
+    Authentication is the process of verifying the identity of a user by obtaining some sort of 
+credentials for example his username password combination, and using those credentials to verify the
+ user’s identity.
+    Authorization is the process of allowing an authenticated user to access his resources by checking 
+whether the user has access rights to the system. You can control access rights by granting or 
+denying specific permissions to an authenticated user. So, If the authentication was successful, 
+the authorization process starts. Authentication process always proceeds to Authorization process.
+
+8. What is SimpleGrantedAuthority in Java?
+
+   Class SimpleGrantedAuthority Stores a String representation of an authority granted to the 
+Authentication object. See Also: Serialized Form.
+
+9. What is role and authority in Spring Security?
+
+   Spring Security Roles as Container User with ROLE_ADMIN role have the authorities to READ , DELETE , 
+WRITE , UPDATE . A user with role ROLE_USER has authority to READ only. User with ROLE_MANAGER can 
+perform READ , WRITE and UPDATE operations.
+

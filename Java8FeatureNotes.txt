@@ -1,0 +1,177 @@
+1. What does function identity () do in Java?
+```````````````````````````````````````````
+identity. static <T> Function<T,T> identity() Returns a function that always returns its input argument. Type Parameters: T - the type of the 
+input and output objects to the function Returns: a function that always returns its input argument.
+
+2.what is Collectors.groupingBy(Function classifier)
+````````````````````````````````````````````````````
+public static Collector<T, ?, Map<K, List>> groupingBy(Function classifier) 
+The groupingBy() method of Collectors class in Java are used for grouping objects by some property and storing results in a Map instance. In order 
+to use it, we always need to specify a property by which the grouping would be performed. This method provides similar functionality to SQL’s GROUP 
+BY clause.
+
+3.what is use of java.util.Collections.frequency()?
+``````````````````````````````````````````````````
+java.util.Collections.frequency() method is present in java.util.Collections class. It is used to get the frequency of a element present in the specified 
+list of Collection. More formally, it returns the number of elements e in the collection.
+
+LamdaExpression IN Java 8 Features:-
+```````````````````````````````````
+    Lambda expression is a new and important feature of Java which was included in Java SE 8. It provides a clear and concise way to represent 
+one method interface using an expression. It is very useful in collection library. It helps to iterate, filter and extract data from collection.
+
+    The Lambda expression is used to provide the implementation of an interface which has functional interface. It saves a lot of code. In case of lambda 
+expression, we don't need to define the method again for providing the implementation. Here, we just write the implementation code.
+
+Functional Interface:-
+`````````````````````
+   Lambda expression provides implementation of functional interface. An interface which has only one abstract method is called functional interface. 
+Java provides an anotation @FunctionalInterface, which is used to declare an interface as functional interface.
+
+Example:-
+```````	
+@FunctionalInterface  
+interface sayable{  
+    void say(String msg);  
+}  
+public class FunctionalInterfaceExample implements sayable{  
+    public void say(String msg){  
+        System.out.println(msg);  
+    }  
+    public static void main(String[] args) {  
+        FunctionalInterfaceExample fie = new FunctionalInterfaceExample();  
+        fie.say("Hello there");  
+    }  
+}  
+
+Java Method References:-
+```````````````````````
+   Java provides a new feature called method reference in Java 8. Method reference is used to refer method of functional interface. It is compact 
+and easy form of lambda expression. Each time when you are using lambda expression to just referring a method, you can replace your lambda 
+expression with method reference. In this tutorial, we are explaining method reference concept in detail.
+
+Types of Method References
+There are following types of method references in java:
+
+1) Reference to a static method.
+2) Reference to an instance method.
+3) Reference to a constructor.
+
+syntax:-
+```````
+ContainingClass::staticMethodName  
+
+4.Java String compareTo()?
+```````````````````````
+ 1)Java String compareTo() Method Example
+ ````````````````````````````````````````
+   The Java String class compareTo() method compares the given string with the current string lexicographically. 
+It returns a positive number, negative number, or 0.
+
+ It compares strings on the basis of the Unicode value of each character in the strings.
+
+  If the first string is lexicographically greater than the second string, it returns a positive number (difference of character value). 
+If the first string is less than the second string lexicographically, it returns a negative number, and if the first string is 
+lexicographically equal to the second string, it returns 0.
+
+
+if s1 > s2, it returns positive number  
+if s1 < s2, it returns negative number  
+if s1 == s2, it returns 0  
+
+
+Example 1:
+``````````
+
+public class CompareToExample{  
+public static void main(String args[]){  
+String s1="hello";  
+String s2="hello";  
+String s3="meklo";  
+String s4="hemlo";  
+String s5="flag";  
+        List<String> list2=new ArrayList<String>();  
+        list2.add(s1);
+        list2.add(s2);
+        list2.add(s3);
+        list2.add(s4);
+        list2.add(s5);
+        Collections.sort(list2);
+        list2.forEach(System.out::println);
+        System.out.println(s2 +" -> "+s1.compareTo(s2));//0 because both are equal  
+        System.out.println(s3 +" -> "+s1.compareTo(s3));//-5 because "h" is 5 times lower than "m"  
+        System.out.println(s4 +" -> "+s1.compareTo(s4));//-1 because "l" is 1 times lower than "m"  
+        System.out.println(s5 +" -> "+s1.compareTo(s5));//2 because "h" is 2 times greater than "f"
+}}  
+
+   2) Java String compareTo(): Empty String
+   ```````````````````````````````````````
+   When we compare two strings in which either first or second string is empty, the method returns the length of the string. 
+ So, there may be two scenarios:
+
+    i)  If first string is an empty string, the method returns a negative that is the length of the second string.
+    ii) If second string is an empty string, the method returns a positive number that is the length of the first string.
+	
+	Note:-
+	`````
+	    1.If default natural sorting order are not available or if our not satisifed with default natural sorting order then we should go 
+          for customized sorting by using Comparator.
+        2.Comparable meant for Default natural sorting order where as Comparator meant for Customized sorting order.
+ 
+public class CompareToExample2{  
+public static void main(String args[]){  
+String s1="hello";  
+String s2="";  
+String s3="me";  
+System.out.println(s1.compareTo(s2));  
+System.out.println(s2.compareTo(s3));  
+}}  
+
+Java 8 Stream:-
+`````````````
+  Java provides a new additional package in Java 8 called java.util.stream. This package consists of classes, 
+interfaces and enum to allows functional-style operations on the elements. You can use stream by importing 
+java.util.stream package.
+ 
+ 1.Stream is functional in nature. Operations performed on a stream does not modify it's source. For example, 
+filtering a Stream obtained from a collection produces a new Stream without the filtered elements, rather 
+than removing elements from the source collection.
+ 2.Stream is lazy and evaluates code only when required.
+ 3.The elements of a stream are only visited once during the life of a stream. Like an Iterator, a new stream 
+must be generated to revisit the same elements of the source.
+
+Java Stream Filter:-
+``````````````````
+  Java stream provides a method filter() to filter stream elements on the basis of given predicate. Suppose you want to get 
+ only even elements of your list then you can do this easily with the help of filter method.
+
+This method takes predicate as an argument and returns a stream of consisting of resulted elements.
+
+Java Default Methods:-
+````````````````````
+  Java provides a facility to create default methods inside the interface. Methods which are defined inside the interface 
+and tagged with default are known as default methods. These methods are non-abstract methods.
+
+Java Default Method Example:-
+```````````````````````````
+  In the following example, Sayable is a functional interface that contains a default and an abstract method. The concept 
+of default method is used to define a method with default implementation. You can override default method also to provide 
+more specific implementation for the method.
+
+Static Methods inside Java 8 Interface:-
+``````````````````````````````````````
+ You can also define static methods inside the interface. Static methods are used to define utility methods. 
+ 
+Abstract Class vs Java 8 Interface:-
+``````````````````````````````````
+  After having default and static methods inside the interface, we think about the need of abstract class in Java. An 
+interface and an abstract class is almost similar except that you can create constructor in the abstract class whereas 
+you can't do this in interface.
+
+Java forEach loop:-
+`````````````````
+  Java provides a new method forEach() to iterate the elements. It is defined in Iterable and Stream interface. It is 
+a default method defined in the Iterable interface. Collection classes which extends Iterable interface can use forEach
+loop to iterate elements.
+
+  This method takes a single parameter which is a functional interface. So, you can pass lambda expression as an argument.
